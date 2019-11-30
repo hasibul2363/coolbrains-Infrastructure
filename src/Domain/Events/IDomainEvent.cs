@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CoolBrains.Infrastructure.Domain
+namespace CoolBrains.Infrastructure.Domain.Events
 {
     public interface IDomainEvent : IEvent
     {

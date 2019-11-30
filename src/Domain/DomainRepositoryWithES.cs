@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CoolBrains.Infrastructure.Domain.Events;
 using CoolBrains.Infrastructure.Store.Abstraction;
 
 namespace CoolBrains.Infrastructure.Domain

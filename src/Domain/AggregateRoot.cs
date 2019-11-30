@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using CoolBrains.Infrastructure.Domain.Events;
 using ReflectionMagic;
 
 namespace CoolBrains.Infrastructure.Domain

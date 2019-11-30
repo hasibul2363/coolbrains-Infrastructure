@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace CoolBrains.Infrastructure.Domain
+namespace CoolBrains.Infrastructure.Domain.Events
 {
     public interface IEvent
     {
