@@ -49,8 +49,9 @@ namespace CoolBrains.Infrastructure.Domain
             Version++;
         }
 
-        protected void AddAndApplyEvent(IDomainEvent @event)
+        protected void AddAndApplyEvent<T>(IDomainEvent @event) where T: IAggregateRoot
         {
+            @event.Source = typeof(T);
             AddEvent(@event);
             ApplyEvent(@event);
         }

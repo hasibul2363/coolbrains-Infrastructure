@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Exceptions\Exceptions.csproj" />
+    <ProjectReference Include="..\Session\Session.csproj" />
     <ProjectReference Include="..\Store.Abstraction\Store.Abstraction.csproj" />
   </ItemGroup>
 

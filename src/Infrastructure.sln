@@ -15,7 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Events", "Events\Events.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Mongo", "Store.Mongo\Store.Mongo.csproj", "{89C301B0-E269-4693-B826-BC9F0AE812E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Session", "Session\Session.csproj", "{5CE2E8A9-0294-4490-B481-77C4B315F6E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Session", "Session\Session.csproj", "{5CE2E8A9-0294-4490-B481-77C4B315F6E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands", "Commands\Commands.csproj", "{4AE1D8D7-116C-42D1-A035-67C312C14796}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Validation.FluentValidator", "Validation.FluentValidator\Validation.FluentValidator.csproj", "{B278BDD6-D47E-43A3-9C53-D58DAC0AB77B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoolBrains", "CoolBrains\CoolBrains.csproj", "{4AC1FF5E-E850-43A4-98C4-9A3FCA605F96}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +53,18 @@ Global
 		{5CE2E8A9-0294-4490-B481-77C4B315F6E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CE2E8A9-0294-4490-B481-77C4B315F6E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CE2E8A9-0294-4490-B481-77C4B315F6E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AE1D8D7-116C-42D1-A035-67C312C14796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AE1D8D7-116C-42D1-A035-67C312C14796}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AE1D8D7-116C-42D1-A035-67C312C14796}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AE1D8D7-116C-42D1-A035-67C312C14796}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B278BDD6-D47E-43A3-9C53-D58DAC0AB77B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B278BDD6-D47E-43A3-9C53-D58DAC0AB77B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B278BDD6-D47E-43A3-9C53-D58DAC0AB77B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B278BDD6-D47E-43A3-9C53-D58DAC0AB77B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AC1FF5E-E850-43A4-98C4-9A3FCA605F96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AC1FF5E-E850-43A4-98C4-9A3FCA605F96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AC1FF5E-E850-43A4-98C4-9A3FCA605F96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AC1FF5E-E850-43A4-98C4-9A3FCA605F96}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
