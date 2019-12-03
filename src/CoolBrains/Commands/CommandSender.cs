@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Commands;
-using CoolBrains.Dependencies;
+using CoolBrains.Infrastructure.Dependencies;
 using CoolBrains.Infrastructure.Domain;
-using CoolBrains.Infrastructure.Domain.Events;
+using CoolBrains.Infrastructure.Events;
 using CoolBrains.Infrastructure.Session;
 
-namespace CoolBrains
+namespace CoolBrains.Infrastructure.Commands
 {
     public class CommandSender : ICommandSender
     {
         private readonly IDomainStore _domainStore;
         private readonly IHandlerResolver _handlerResolver;
-        private readonly UserContext _userContext;
-        public CommandSender(IHandlerResolver handlerResolver, UserContext userContext, IDomainStore domainStore)
+        private UserContext _userContext;
+        private readonly IEventPublisher _eventPublisher;
+        public CommandSender(IHandlerResolver handlerResolver, UserContext userContext, IDomainStore domainStore, IEventPublisher eventPublisher)
         {
             _handlerResolver = handlerResolver;
             _userContext = userContext;
             _domainStore = domainStore;
+            _eventPublisher = eventPublisher;
         }
 
         public async Task<CommandResponse> SendAsync(ICommand command)
@@ -30,7 +30,9 @@ namespace CoolBrains
 
             if (command.UserContext == null)
                 command.SetUserContext(_userContext);
-
+            else
+                _userContext = command.UserContext;
+            
             //TODO Automatic validation
 
             var handler = _handlerResolver.ResolveHandler(command, typeof(ICommandHandlerAsync<>));

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CoolBrains.Dependencies
+namespace CoolBrains.Infrastructure.Dependencies
 {
     public class Resolver : IResolver
     {

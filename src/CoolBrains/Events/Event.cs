@@ -1,7 +1,7 @@
 ﻿using System;
 using CoolBrains.Infrastructure.Session;
 
-namespace CoolBrains.Infrastructure.Domain.Events
+namespace CoolBrains.Infrastructure.Events
 {
     public class Event : IEvent
     {

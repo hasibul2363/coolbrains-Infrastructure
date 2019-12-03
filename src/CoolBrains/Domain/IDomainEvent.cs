@@ -1,6 +1,7 @@
 ﻿using System;
+using CoolBrains.Infrastructure.Events;
 
-namespace CoolBrains.Infrastructure.Domain.Events
+namespace CoolBrains.Infrastructure.Domain
 {
     public interface IDomainEvent : IEvent
     {

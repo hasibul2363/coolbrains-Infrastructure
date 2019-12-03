@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoolBrains.Infrastructure.Domain;
-using CoolBrains.Infrastructure.Domain.Events;
 using CoolBrains.Infrastructure.Store.Abstraction;
 using MongoDB.Bson.IO;
 
@@ -79,7 +78,7 @@ namespace CoolBrains.Infrastructure.Store.Mongo
                 Data = Newtonsoft.Json.JsonConvert.SerializeObject(@event),
                 Type = @event.GetType().Name,
                 Sequence = sequence,
-                UserId = @event.UserId,
+                UserId = @event.UserContext.UserId,
                 TimeStamp = @event.TimeStamp
             };
         }

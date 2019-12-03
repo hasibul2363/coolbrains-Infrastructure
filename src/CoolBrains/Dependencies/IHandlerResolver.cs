@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CoolBrains.Dependencies
+namespace CoolBrains.Infrastructure.Dependencies
 {
     public interface IHandlerResolver
     {

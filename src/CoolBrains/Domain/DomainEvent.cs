@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CoolBrains.Infrastructure.Session;
+using CoolBrains.Infrastructure.Events;
 
-namespace CoolBrains.Infrastructure.Domain.Events
+namespace CoolBrains.Infrastructure.Domain
 {
     public class DomainEvent: Event, IDomainEvent
     {

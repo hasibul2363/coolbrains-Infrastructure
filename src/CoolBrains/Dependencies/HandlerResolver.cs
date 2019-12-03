@@ -2,7 +2,7 @@
 using System.Linq;
 using CoolBrains.Infrastructure.Exceptions;
 
-namespace CoolBrains.Dependencies
+namespace CoolBrains.Infrastructure.Dependencies
 {
     public class HandlerResolver : IHandlerResolver
     {

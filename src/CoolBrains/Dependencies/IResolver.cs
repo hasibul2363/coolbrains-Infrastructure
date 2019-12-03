@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CoolBrains.Dependencies
+namespace CoolBrains.Infrastructure.Dependencies
 {
     public interface IResolver
     {
