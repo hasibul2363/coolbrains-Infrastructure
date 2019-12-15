@@ -31,11 +31,11 @@ namespace CoolBrains.Infrastructure.Extensions
             services.AddScoped<IEventPublisher, EventPublisher>();
 
 
-
+            /*
             IEventHandlerAsync<>
             ICommandHandlerAsync<>
             ICommandHandler<>
-                
+                */
 
             
             
