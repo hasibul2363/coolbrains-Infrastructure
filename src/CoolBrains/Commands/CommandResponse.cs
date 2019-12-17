@@ -9,4 +9,6 @@ namespace CoolBrains.Infrastructure.Commands
         public ValidationResult ValidationResult { get; set; }
         public object Result { get; set; }
     }
+
+    
 }

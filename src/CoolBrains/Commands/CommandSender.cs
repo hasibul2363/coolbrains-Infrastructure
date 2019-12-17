@@ -23,6 +23,8 @@ namespace CoolBrains.Infrastructure.Commands
             _eventPublisher = eventPublisher;
         }
 
+      
+
         public async Task<CommandResponse> SendAsync(ICommand command)
         {
             if (command == null)
@@ -65,6 +67,13 @@ namespace CoolBrains.Infrastructure.Commands
             }
 
             return response;
+        }
+
+      
+
+        public CommandResponse Send(ICommand command)
+        {
+            throw new NotImplementedException();
         }
     }
 }
