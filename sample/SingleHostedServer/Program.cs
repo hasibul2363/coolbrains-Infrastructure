@@ -43,6 +43,8 @@ namespace SingleHostedServer
             services.AddCoolBrains().AddMongoDbProvider(_configuration);
             //services.Configure<DbConnectionDetails>(_configuration.GetSection("DbConnectionDetails"));
             _serviceProvider = services.BuildServiceProvider();
+
+            
         }
 
         static async Task Main(string[] args)

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using CoolBrains.Infrastructure.Events;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CoolBrains.Infrastructure.Dependencies
 {
     public class Resolver : IResolver
     {
-        private readonly IServiceProvider _serviceProvider;
+        private IServiceProvider _serviceProvider;
 
         public Resolver(IServiceProvider serviceProvider)
         {
@@ -20,6 +21,15 @@ namespace CoolBrains.Infrastructure.Dependencies
 
         public IEnumerable<T> ResolveAll<T>()
         {
+            try
+            {
+                var services = _serviceProvider.GetServices(typeof(IEventHandlerAsync<>));
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
             return _serviceProvider.GetServices<T>();
         }
 

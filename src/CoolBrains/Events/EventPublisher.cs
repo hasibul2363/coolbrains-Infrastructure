@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CoolBrains.Infrastructure.Bus;
 using CoolBrains.Infrastructure.Dependencies;
 using CoolBrains.Infrastructure.Session;
+using ReflectionMagic;
 
 namespace CoolBrains.Infrastructure.Events
 {
@@ -12,11 +13,13 @@ namespace CoolBrains.Infrastructure.Events
         private readonly IResolver _resolver;
         private readonly IBusMessageDispatcher _busMessageDispatcher;
         private UserContext _userContext;
+        private IHandlerResolver _handlerResolver;
 
-        public EventPublisher(IResolver resolver, IBusMessageDispatcher busMessageDispatcher, UserContext userContext)
+        public EventPublisher(IResolver resolver, IBusMessageDispatcher busMessageDispatcher, UserContext userContext, IHandlerResolver handlerResolver)
         {
             _resolver = resolver;
             _busMessageDispatcher = busMessageDispatcher;
+            _handlerResolver = handlerResolver;
         }
 
   
@@ -31,10 +34,11 @@ namespace CoolBrains.Infrastructure.Events
             else
                 _userContext = @event.UserContext;
             
-            var handlers = _resolver.ResolveAll<IEventHandlerAsync<TEvent>>();
+            //TODO there is a probability to have multiple handlers
+            var handler = _handlerResolver.ResolveHandler(@event,typeof(IEventHandlerAsync<>));
 
-            foreach (var handler in handlers)
-                await handler.HandleAsync(@event);
+            //foreach (var handler in handlers)
+                await handler.AsDynamic().HandleAsync(@event);
 
             if (@event is IBusMessage message)
                 await _busMessageDispatcher.DispatchAsync(message);
