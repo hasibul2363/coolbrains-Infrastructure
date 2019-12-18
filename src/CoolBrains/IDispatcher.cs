@@ -13,7 +13,7 @@ namespace CoolBrains.Infrastructure
         Task<TResult> GetResultAsync<TResult>(IQuery<TResult> query);
         TResult GetResult<TResult>(IQuery<TResult> query);
 
-        CommandResponse Send<TResult>(ICommand command);
+        CommandResponse Send(ICommand command);
         Task<CommandResponse> SendAsync(ICommand command);
 
         Task SendBusMessageAsync<TMessage>(TMessage message) where TMessage : IBusMessage;

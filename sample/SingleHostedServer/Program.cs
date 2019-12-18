@@ -25,13 +25,13 @@ namespace SingleHostedServer
         {
             _configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile("appsettings.json", false, true)
                 .Build();
         }
 
         private static void Register()
         {
-            var services = new ServiceCollection();
+            IServiceCollection services = new ServiceCollection();
             services.AddSingleton<UserContext>(new UserContext
             {
                 UserId = Guid.NewGuid(), TenantId = Guid.Parse("97f1c1d9-4219-4fc3-adf4-19fdb9dd8846")
@@ -39,13 +39,9 @@ namespace SingleHostedServer
 
             services.AddTransient<ICommandHandler<CreateUserCommand>, CreateUserCommandHandler>();
             services.AddTransient<IEventHandlerAsync<UserCreated>, UserCreatedEventHandler>();
-
-            services.AddCoolBrains()
-                .AddMongoDbProvider((DbConnectionDetails connection) =>
-                {
-                    services.Configure<DbConnectionDetails>(_configuration.GetSection("DbConnectionDetails"));
-                });
-
+            
+            services.AddCoolBrains().AddMongoDbProvider(_configuration);
+            //services.Configure<DbConnectionDetails>(_configuration.GetSection("DbConnectionDetails"));
             _serviceProvider = services.BuildServiceProvider();
         }
 
@@ -59,7 +55,7 @@ namespace SingleHostedServer
             };
 
             var bus = _serviceProvider.GetService<IDispatcher>();
-            var response = await bus.SendAsync(command);
+            var response = bus.Send(command);
             Console.WriteLine("Hello World!");
         }
     }

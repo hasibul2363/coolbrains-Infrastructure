@@ -11,7 +11,7 @@ namespace SingleHostedServer.Domain
         public string UserName { get; private set; }
         public string Email { get; private set; }
 
-        public User(string userName, string email)
+        public User(string userName, string email, Guid userId) : base(userId)
         {
             UserName = userName;
             Email = email;
@@ -22,5 +22,12 @@ namespace SingleHostedServer.Domain
                 UserName = userName, 
             });
         }
+
+        private void Apply(UserCreated @event)
+        {
+            this.Email = @event.Email;
+            this.UserName = @event.UserName;
+        }
+
     }
 }

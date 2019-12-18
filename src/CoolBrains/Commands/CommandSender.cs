@@ -73,7 +73,46 @@ namespace CoolBrains.Infrastructure.Commands
 
         public CommandResponse Send(ICommand command)
         {
-            throw new NotImplementedException();
+            if (command == null)
+                throw new ArgumentNullException(nameof(command));
+
+            if (command.UserContext == null)
+                command.SetUserContext(_userContext);
+            else
+                _userContext = command.UserContext;
+
+            //TODO Automatic validation
+
+            var handler = _handlerResolver.ResolveHandler(command, typeof(ICommandHandler<>));
+            var handleMethod = handler.GetType().GetMethod("Handle", new[] { command.GetType() });
+            var response = (CommandResponse)handleMethod.Invoke(handler, new object[] { command });
+
+            if (response == null)
+                return null;
+
+            if (response.Events == null)
+                return response;
+
+            if (response.Events != null)
+                foreach (var @event in (IEnumerable<IDomainEvent>)response.Events)
+                {
+                    if (@event.UserContext == null)
+                        @event.SetUserContext(_userContext);
+                }
+
+
+            var events = (IEnumerable<IDomainEvent>)response.Events;
+            var aggregateDetail = events.First();
+
+            _domainStore.Save(aggregateDetail.Source, aggregateDetail.AggregateRootId, events);
+
+            if (command.PublishEvent)
+            {
+                foreach (var @event in response.Events)
+                    _eventPublisher.PublishAsync(@event).GetAwaiter().GetResult();
+            }
+
+            return response;
         }
     }
 }

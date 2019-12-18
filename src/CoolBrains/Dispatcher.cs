@@ -63,9 +63,9 @@ namespace CoolBrains.Infrastructure
         }
 
         /// <inheritdoc />
-        public void Send(ICommand command)
+        public CommandResponse Send(ICommand command)
         {
-            _commandSender.Send(command);
+            return _commandSender.Send(command);
         }
 
         /// <inheritdoc />

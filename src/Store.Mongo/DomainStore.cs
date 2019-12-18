@@ -24,7 +24,7 @@ namespace CoolBrains.Infrastructure.Store.Mongo
 
             var eventDocs = new List<EventDocument>();
             var currentVersion = _repository.GetItems<EventDocument>(p => p.AggregateId == aggregateRootId).Count();
-            events.ToList().ForEach(e => Build(e, ++currentVersion));
+            events.ToList().ForEach(e => eventDocs.Add(Build(e, ++currentVersion)));
             _repository.Save(eventDocs);
         }
 

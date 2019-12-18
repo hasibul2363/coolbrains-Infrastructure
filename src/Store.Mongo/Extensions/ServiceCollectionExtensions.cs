@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using CoolBrains.Infrastructure.Domain;
 using CoolBrains.Infrastructure.Extensions;
 using CoolBrains.Infrastructure.Store.Abstraction;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+
 
 namespace CoolBrains.Infrastructure.Store.Mongo.Extensions
 {
@@ -16,7 +15,7 @@ namespace CoolBrains.Infrastructure.Store.Mongo.Extensions
         //    return AddCosmosDbMongoDbProvider(builder, opt => { });
         //}
 
-        public static ICoolBrainsServiceBuilder AddMongoDbProvider(this ICoolBrainsServiceBuilder builder, Action<DbConnectionDetails> setupAction)
+        public static ICoolBrainsServiceBuilder AddMongoDbProvider(this ICoolBrainsServiceBuilder builder, IConfiguration configuration)
         {
             if (builder == null)
             {
@@ -28,11 +27,12 @@ namespace CoolBrains.Infrastructure.Store.Mongo.Extensions
             //    throw new ArgumentNullException(nameof(setupAction));
             //}
 
-            builder.Services.Configure(setupAction);
+            //builder.Services.Configure(setupAction);
 
+            builder.Services.Configure<DbConnectionDetails>(configuration.GetSection("DbConnectionDetails"));
 
             //builder.Services.AddScoped<IRepository, ClassicMongoRepository>();
-            
+
             builder.Services.AddSingleton<TenantSpecificDbConnectionBuilder>();
             builder.Services.AddScoped<IRepository, TenantSpecificMongoRepository>();
             builder.Services.AddScoped<IDomainStore, DomainStore>();
