@@ -8,6 +8,7 @@ namespace CoolBrains.Infrastructure.Store.Mongo
     {
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
+        public string Suffix { get; set; }
 
     }
 }

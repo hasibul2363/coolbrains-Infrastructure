@@ -10,16 +10,15 @@ namespace CoolBrains.Infrastructure.Events
 {
     public class EventPublisher : IEventPublisher
     {
-        private readonly IResolver _resolver;
         private readonly IBusMessageDispatcher _busMessageDispatcher;
         private UserContext _userContext;
         private IHandlerResolver _handlerResolver;
 
-        public EventPublisher(IResolver resolver, IBusMessageDispatcher busMessageDispatcher, UserContext userContext, IHandlerResolver handlerResolver)
+        public EventPublisher(IBusMessageDispatcher busMessageDispatcher, UserContext userContext, IHandlerResolver handlerResolver)
         {
-            _resolver = resolver;
             _busMessageDispatcher = busMessageDispatcher;
             _handlerResolver = handlerResolver;
+            _userContext = userContext;
         }
 
   
@@ -28,11 +27,7 @@ namespace CoolBrains.Infrastructure.Events
             if (@event == null)
                 throw new ArgumentNullException(nameof(@event));
 
-
-            if (@event.UserContext == null)
-                @event.SetUserContext(_userContext);
-            else
-                _userContext = @event.UserContext;
+            _userContext = @event.UserContext;
             
             //TODO there is a probability to have multiple handlers
             var handler = _handlerResolver.ResolveHandler(@event,typeof(IEventHandlerAsync<>));

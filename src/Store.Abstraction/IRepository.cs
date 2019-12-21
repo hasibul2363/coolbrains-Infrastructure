@@ -12,6 +12,7 @@ namespace CoolBrains.Infrastructure.Store.Abstraction
         void Save<T>(T item, string collectionName = "");
         void Save<T>(List<T> items, string collectionName = "");
         Task SaveAsync<T>(List<T> items, string collectionName = "");
+        Task SaveAsync<T>(T item, string collectionName = "");
         T GetItem<T>(Expression<Func<T, bool>> filter, string collectionName = "");
         void Update<T>(Expression<Func<T, bool>> filter, T data, string collectionName = "");
         void UpdateMany<T>(Expression<Func<T, bool>> filter, object data, string collectionName = "");

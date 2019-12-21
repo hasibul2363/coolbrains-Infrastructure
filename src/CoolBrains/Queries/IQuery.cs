@@ -1,6 +1,8 @@
-﻿namespace CoolBrains.Infrastructure.Queries
+﻿using CoolBrains.Infrastructure.Session;
+
+namespace CoolBrains.Infrastructure.Queries
 {
-    public interface IQuery<TResult>
+    public interface IQuery<TResult>: ISecurityInfo
     {
     }
 }

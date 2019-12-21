@@ -53,6 +53,12 @@ namespace CoolBrains.Infrastructure.Store.Mongo
             return DataContext.GetCollection<T>(GetCollectionName<T>(collectionName)).InsertManyAsync(items);
         }
 
+        public Task SaveAsync<T>(T item, string collectionName = "")
+        {
+            Initialize();
+            return DataContext.GetCollection<T>(GetCollectionName<T>(collectionName)).InsertOneAsync(item);
+        }
+
         public T GetItem<T>(Expression<Func<T, bool>> filter, string collectionName = "")
         {
             Initialize();

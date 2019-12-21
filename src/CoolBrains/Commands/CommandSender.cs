@@ -29,14 +29,9 @@ namespace CoolBrains.Infrastructure.Commands
         {
             if (command == null)
                 throw new ArgumentNullException(nameof(command));
-
-            if (command.UserContext == null)
-                command.SetUserContext(_userContext);
-            else
-                _userContext = command.UserContext;
             
-            //TODO Automatic validation
-
+            _userContext = command.UserContext;
+            
             var handler = _handlerResolver.ResolveHandler(command, typeof(ICommandHandlerAsync<>));
             var handleMethod = handler.GetType().GetMethod("HandleAsync", new[] { command.GetType() });
             var response = await (Task<CommandResponse>)handleMethod.Invoke(handler, new object[] { command });
@@ -63,7 +58,10 @@ namespace CoolBrains.Infrastructure.Commands
             if (command.PublishEvent)
             {
                 foreach (var @event in response.Events)
+                {
                     await _eventPublisher.PublishAsync(@event);
+                }
+                    
             }
 
             return response;

@@ -1,6 +1,9 @@
-﻿namespace CoolBrains.Infrastructure.Bus
+﻿using CoolBrains.Infrastructure.Session;
+
+namespace CoolBrains.Infrastructure.Bus
 {
-    public interface IBusMessage
+        
+    public interface IBusMessage : ISecurityInfo
     {
     }
 }

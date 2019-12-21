@@ -3,12 +3,9 @@ using CoolBrains.Infrastructure.Session;
 
 namespace CoolBrains.Infrastructure.Commands
 {
-    public interface ICommand
+    public interface ICommand: ISecurityInfo
     {
-        UserContext UserContext { get;}
         DateTime TimeStamp { get; set; }
         bool PublishEvent { get; set; }
-        void SetUserContext(UserContext userContext);
-
     }
 }

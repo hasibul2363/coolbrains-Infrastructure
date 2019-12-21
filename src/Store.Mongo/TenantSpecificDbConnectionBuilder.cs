@@ -22,8 +22,7 @@ namespace CoolBrains.Infrastructure.Store.Mongo
             return new DbConnectionDetails
             {
                 ConnectionString = _dbConnection.ConnectionString,
-                DatabaseName = _userContext.TenantId.ToString()
-            };
+                DatabaseName = string.IsNullOrEmpty(_dbConnection.Suffix)? _userContext.TenantId.ToString() : $"{_userContext.TenantId.ToString()}_{_dbConnection.Suffix}" };
         }
 
     }

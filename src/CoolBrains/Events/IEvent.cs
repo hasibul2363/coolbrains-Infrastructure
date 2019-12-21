@@ -3,11 +3,9 @@ using CoolBrains.Infrastructure.Session;
 
 namespace CoolBrains.Infrastructure.Events
 {
-    public interface IEvent
+    public interface IEvent: ISecurityInfo
     {
-        UserContext UserContext { get; }
         Type Source { get; set; }
         DateTime TimeStamp { get; set; }
-        void SetUserContext(UserContext userContext);
     }
 }
