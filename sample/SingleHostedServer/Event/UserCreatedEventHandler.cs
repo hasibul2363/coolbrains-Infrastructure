@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using CoolBrains.Bus.RabbitMQ;
 using CoolBrains.Infrastructure.Events;
 using CoolBrains.Infrastructure.Store.Abstraction;
+using MassTransit;
 using SingleHostedServer.Event.User;
 
 namespace SingleHostedServer.Event
 {
-    public class UserCreatedEventHandler : IEventHandlerAsync<UserCreated>
+    public class UserCreatedEventHandler : EventHandlerAsync<UserCreated> //IEventHandlerAsync<UserCreated>
     {
         private readonly IRepository _repository;
 
@@ -16,7 +18,7 @@ namespace SingleHostedServer.Event
         {
             _repository = repository;
         }
-        public Task HandleAsync(UserCreated @event)
+        public override Task HandleAsync(UserCreated @event)
         {
             Console.WriteLine($"I am from {@event.GetType()} event handler");
             return _repository.SaveAsync(new UserInfo
@@ -25,5 +27,7 @@ namespace SingleHostedServer.Event
             });
             
         }
+
+      
     }
 }

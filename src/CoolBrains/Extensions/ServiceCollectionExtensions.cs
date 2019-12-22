@@ -33,6 +33,8 @@ namespace CoolBrains.Infrastructure.Extensions
             services.AddScoped<ICommandSender, CommandSender>();
             services.AddScoped<IEventPublisher, EventPublisher>();
             services.AddScoped<IQueryProcessor, QueryProcessor>();
+            services.AddSingleton<IQueueClient, DefaultQueueClient>();
+            services.AddSingleton<ITopicClient, DefaultTopicClient>();
 
 
             /*

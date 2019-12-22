@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\CoolBrains.Bus.RabbitMQ\CoolBrains.Bus.RabbitMQ.csproj" />
     <ProjectReference Include="..\..\src\CoolBrains\CoolBrains.csproj" />
     <ProjectReference Include="..\..\src\Session\Session.csproj" />
     <ProjectReference Include="..\..\src\Store.Abstraction\Store.Abstraction.csproj" />

@@ -33,10 +33,10 @@ namespace CoolBrains.Infrastructure.Events
             var handler = _handlerResolver.ResolveHandler(@event,typeof(IEventHandlerAsync<>));
 
             //foreach (var handler in handlers)
-                await handler.AsDynamic().HandleAsync(@event);
+            await handler.AsDynamic().HandleAsync(@event);
 
             if (@event is IBusMessage message)
-                await _busMessageDispatcher.DispatchAsync(message);
+              await _busMessageDispatcher.DispatchAsync(message);
         }
 
         

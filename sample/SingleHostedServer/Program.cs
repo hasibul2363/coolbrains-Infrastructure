@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using CoolBrains.Bus.RabbitMQ;
 using CoolBrains.Infrastructure;
 using CoolBrains.Infrastructure.Commands;
 using CoolBrains.Infrastructure.Events;
@@ -9,6 +10,7 @@ using CoolBrains.Infrastructure.Extensions;
 using CoolBrains.Infrastructure.Session;
 using CoolBrains.Infrastructure.Store.Mongo;
 using CoolBrains.Infrastructure.Store.Mongo.Extensions;
+using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -39,8 +41,17 @@ namespace SingleHostedServer
 
             services.AddTransient<ICommandHandler<CreateUserCommand>, CreateUserCommandHandler>();
             services.AddTransient<IEventHandlerAsync<UserCreated>, UserCreatedEventHandler>();
-            
-            services.AddCoolBrains().AddMongoDbProvider(_configuration);
+            services.AddTransient<UserCreatedEventHandler>();
+
+            services.AddCoolBrains()
+                .AddMongoDbProvider(_configuration)
+                .AddRabbitMqProvider(_configuration).Listen(
+                    e =>
+                    {
+                        e.Consumer<UserCreatedEventHandler>();
+                    }
+                    ).Start();
+
             //services.Configure<DbConnectionDetails>(_configuration.GetSection("DbConnectionDetails"));
             _serviceProvider = services.BuildServiceProvider();
 
