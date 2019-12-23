@@ -2,7 +2,7 @@
 using CoolBrains.Infrastructure.Events;
 using MassTransit;
 
-namespace CoolBrains.Bus.RabbitMQ
+namespace CoolBrains.Infrastructure.Bus.RabbitMQ
 {
     public abstract class EventHandlerAsync<T> :IConsumer<T>, IEventHandlerAsync<T> where T: class, IEvent
     {

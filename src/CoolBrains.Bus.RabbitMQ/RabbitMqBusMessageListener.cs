@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using CoolBrains.Infrastructure.Extensions;
-using GreenPipes;
 using MassTransit;
 using MassTransit.RabbitMqTransport;
-using MassTransit.RabbitMqTransport.Transport;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace CoolBrains.Bus.RabbitMQ
+namespace CoolBrains.Infrastructure.Bus.RabbitMQ
 {
     public static class RabbitMqBusMessageListener
     {
@@ -58,6 +55,13 @@ namespace CoolBrains.Bus.RabbitMQ
         {
             Initialize();
             _busControl.Start();
+        }
+
+        public static void Stop()
+        {
+
+            _busControl.Stop();
+
         }
     }
 }

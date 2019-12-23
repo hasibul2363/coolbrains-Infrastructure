@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using CoolBrains.Bus.RabbitMQ;
+using CoolBrains.Infrastructure.Bus.RabbitMQ;
 using CoolBrains.Infrastructure;
 using CoolBrains.Infrastructure.Commands;
 using CoolBrains.Infrastructure.Events;
@@ -79,7 +79,19 @@ namespace SingleHostedServer
             };
 
             var bus = _serviceProvider.GetService<IDispatcher>();
-            var response = bus.Send(command);
+            while (true)
+            {
+                var response = bus.Send(command);
+                Console.WriteLine("q to exit");
+                var s = Console.ReadLine();
+                if (s == "q")
+                {
+                    RabbitMqBusMessageListener.Stop();
+                    break;
+                }
+            }
+            
+            
             Console.WriteLine("Hello World!");
         }
 

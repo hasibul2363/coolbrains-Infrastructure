@@ -1,10 +1,9 @@
 ﻿using System;
-using CoolBrains.Infrastructure.Bus;
 using CoolBrains.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CoolBrains.Bus.RabbitMQ
+namespace CoolBrains.Infrastructure.Bus.RabbitMQ
 {
     public static class ServiceCollectionExtensions
     {

@@ -2,6 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>CoolBrains.Infrastructure.Validation.FluentValidator</AssemblyName>
+    <RootNamespace>CoolBrains.Infrastructure.Validation.FluentValidator</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="8.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CoolBrains\CoolBrains.csproj" />
+  </ItemGroup>
 
 </Project>

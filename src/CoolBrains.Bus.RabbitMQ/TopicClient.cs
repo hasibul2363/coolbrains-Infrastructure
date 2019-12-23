@@ -1,12 +1,11 @@
-﻿using CoolBrains.Infrastructure.Bus;
+﻿using System;
+using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Options;
-using System;
-using System.Threading.Tasks;
 
 // ReSharper disable StringLiteralTypo
 
-namespace CoolBrains.Bus.RabbitMQ
+namespace CoolBrains.Infrastructure.Bus.RabbitMQ
 {
     public class TopicClient : ITopicClient
     {

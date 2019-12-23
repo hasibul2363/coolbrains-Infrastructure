@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using CoolBrains.Bus.RabbitMQ;
+using CoolBrains.Infrastructure.Bus.RabbitMQ;
 using CoolBrains.Infrastructure.Events;
 using CoolBrains.Infrastructure.Store.Abstraction;
 using MassTransit;

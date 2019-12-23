@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CoolBrains.Bus.RabbitMQ
+﻿namespace CoolBrains.Infrastructure.Bus.RabbitMQ
 {
     public class RabbitConfig
     {
