@@ -34,21 +34,32 @@ namespace SingleHostedServer
         private static void Register()
         {
             IServiceCollection services = new ServiceCollection();
+            services.AddMassTransit();
+
             services.AddSingleton<UserContext>(new UserContext
             {
                 UserId = Guid.NewGuid(), TenantId = Guid.Parse("97f1c1d9-4219-4fc3-adf4-19fdb9dd8846")
             });
 
             services.AddTransient<ICommandHandler<CreateUserCommand>, CreateUserCommandHandler>();
-            services.AddTransient<IEventHandlerAsync<UserCreated>, UserCreatedEventHandler>();
+            //services.AddTransient<IEventHandlerAsync<UserCreated>, UserCreatedEventHandler>();
             services.AddTransient<UserCreatedEventHandler>();
 
-            services.AddCoolBrains()
-                .AddMongoDbProvider(_configuration)
-                .AddRabbitMqProvider(_configuration).Listen(
+
+
+
+            var builder = services
+                    .AddCoolBrains()
+                .AddMongoDbProvider(_configuration);
+            _serviceProvider = services.BuildServiceProvider();
+
+            var handler = _serviceProvider.GetService<UserCreatedEventHandler>();
+
+            builder.AddRabbitMqProvider(_configuration).Listen(
                     e =>
                     {
-                        e.Consumer<UserCreatedEventHandler>();
+                        e.Consumer<UserCreatedEventHandler>(_serviceProvider);
+                        //e.ConfigureConsumer<UserCreatedEventHandler>(_serviceProvider);
                     }
                     ).Start();
 
@@ -71,5 +82,6 @@ namespace SingleHostedServer
             var response = bus.Send(command);
             Console.WriteLine("Hello World!");
         }
+
     }
 }

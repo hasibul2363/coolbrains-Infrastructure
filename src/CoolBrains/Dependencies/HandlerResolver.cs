@@ -27,8 +27,6 @@ namespace CoolBrains.Infrastructure.Dependencies
         {
             var handler = _resolver.Resolve(handlerType);
 
-            if (handler == null)
-                throw new HandlerNotFoundException(handlerType);
 
             return handler;
         }

@@ -21,25 +21,26 @@ namespace CoolBrains.Infrastructure.Events
             _userContext = userContext;
         }
 
-  
+
         public async Task PublishAsync<TEvent>(TEvent @event) where TEvent : IEvent
         {
             if (@event == null)
                 throw new ArgumentNullException(nameof(@event));
 
             _userContext = @event.UserContext;
-            
+
             //TODO there is a probability to have multiple handlers
-            var handler = _handlerResolver.ResolveHandler(@event,typeof(IEventHandlerAsync<>));
+            var handler = _handlerResolver.ResolveHandler(@event, typeof(IEventHandlerAsync<>));
 
             //foreach (var handler in handlers)
-            await handler.AsDynamic().HandleAsync(@event);
+            if (handler != null)
+                await handler.AsDynamic().HandleAsync(@event);
 
             if (@event is IBusMessage message)
-              await _busMessageDispatcher.DispatchAsync(message);
+                await _busMessageDispatcher.DispatchAsync(message);
         }
 
-        
+
         public async Task PublishAsync<TEvent>(IEnumerable<TEvent> events) where TEvent : IEvent
         {
             foreach (var @event in events)
@@ -48,6 +49,6 @@ namespace CoolBrains.Infrastructure.Events
             }
         }
 
-    
+
     }
 }

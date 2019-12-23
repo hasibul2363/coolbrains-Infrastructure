@@ -28,6 +28,10 @@ namespace SingleHostedServer.Event
             
         }
 
-      
+
+        //public async Task Consume(ConsumeContext<UserCreated> context)
+        //{
+        //    Console.WriteLine($"I am from  event handler");
+        //}
     }
 }
