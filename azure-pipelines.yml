@@ -23,7 +23,7 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    projects: 'src/Infrastructure.sln'
+    projects:  '**/*.csproj'
     arguments: '-configuration $(buildConfiguration)'
   
 - task: NuGetCommand@2
