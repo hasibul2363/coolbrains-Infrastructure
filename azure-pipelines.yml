@@ -21,12 +21,14 @@ steps:
     feedsToUse: 'select'
     
 - task: DotNetCoreCLI@2
+  displayName: 'Build'
   inputs:
     command: 'build'
     projects:  '**/*.csproj'
-    arguments: '-configuration $(buildConfiguration)'
+    arguments: '--configuration $(buildConfiguration)'
   
 - task: NuGetCommand@2
+  displayName: 'Push'
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
