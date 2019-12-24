@@ -21,12 +21,11 @@ steps:
     feedsToUse: 'select'
     
 - task: DotNetCoreCLI@2
-  displayName: 'Build'
   inputs:
-    command: 'build'
-    projects:  '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
-  
+    command: 'custom'
+    custom: 'dotnet build src/Infrastructure.sln --configuration $(buildConfiguration)'
+    
+
 - task: NuGetCommand@2
   displayName: 'Push'
   inputs:
