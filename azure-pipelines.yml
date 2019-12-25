@@ -27,9 +27,8 @@ steps:
     arguments: '--configuration $(buildConfiguration)'
 
 - task: NuGetCommand@2
-  displayName: 'Push'
   inputs:
     command: 'push'
     packagesToPush: 'src/**/*.nupkg'
-    nuGetFeedType: 'internal'
-    publishVstsFeed: '71c5d1bb-8c0c-4dc3-a731-5f90ce1f440b'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'hasibul-nuget'
