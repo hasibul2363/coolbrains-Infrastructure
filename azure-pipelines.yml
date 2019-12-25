@@ -25,10 +25,9 @@ steps:
     command: 'build'
     projects: 'src/**/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
-
 - task: NuGetCommand@2
   inputs:
     command: 'push'
     packagesToPush: 'src/**/*.nupkg'
     nuGetFeedType: 'external'
-    publishFeedCredentials: 'hasibul-nuget'
+    publishFeedCredentials: 'coolbrains-github'
