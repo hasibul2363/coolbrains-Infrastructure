@@ -13,12 +13,9 @@ namespace SingleHostedServer.Domain
 
         public User(string userName, string email, Guid userId) : base(userId)
         {
-            UserName = userName;
-            Email = email;
-
             AddAndApplyEvent<User>(new UserCreated
             {
-                Email = this.Email, 
+                Email = email, 
                 UserName = userName, 
             });
         }

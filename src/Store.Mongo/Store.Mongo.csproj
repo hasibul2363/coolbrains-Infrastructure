@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>CoolBrains.Infrastructure.Store.Mongo</AssemblyName>
     <RootNamespace>CoolBrains.Infrastructure.Store.Mongo</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

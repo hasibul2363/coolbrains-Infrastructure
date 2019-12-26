@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>CoolBrains.Infrastructure.Store.Abstraction</AssemblyName>
     <RootNamespace>CoolBrains.Infrastructure.Store.Abstraction</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
 </Project>
