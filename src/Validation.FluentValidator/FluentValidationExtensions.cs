@@ -4,7 +4,7 @@ namespace CoolBrains.Infrastructure.Validation.FluentValidator
 {
     public static class FluentValidationExtensions
     {
-        public static Commands.ValidationResult ToMiddlewareValidationResult(this ValidationResult validationResult)
+        public static Commands.ValidationResult ToGenericValidationResult(this ValidationResult validationResult)
         {
             var suitValidationResult = new Commands.ValidationResult();
             if (validationResult == null)

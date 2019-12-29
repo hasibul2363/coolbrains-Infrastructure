@@ -55,7 +55,8 @@ namespace SingleHostedServer
 
             var handler = _serviceProvider.GetService<UserCreatedEventHandler>();
 
-            builder.AddRabbitMqProvider(_configuration).Listen(
+            builder.AddRabbitMqProvider(_configuration)
+                .Listen(
                     e =>
                     {
                         e.Consumer<UserCreatedEventHandler>(_serviceProvider);
@@ -63,7 +64,7 @@ namespace SingleHostedServer
                     }
                     ).Start();
 
-            //services.Configure<DbConnectionDetails>(_configuration.GetSection("DbConnectionDetails"));
+            services.Configure<DbConnectionDetails>(_configuration.GetSection("DbConnectionDetails"));
             _serviceProvider = services.BuildServiceProvider();
 
             
@@ -82,6 +83,7 @@ namespace SingleHostedServer
             while (true)
             {
                 var response = bus.Send(command);
+
                 Console.WriteLine("q to exit");
                 var s = Console.ReadLine();
                 if (s == "q")

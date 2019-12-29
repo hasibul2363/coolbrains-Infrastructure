@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using CoolBrains.Infrastructure.Bus.RabbitMQ;
-using CoolBrains.Infrastructure.Events;
 using CoolBrains.Infrastructure.Store.Abstraction;
-using MassTransit;
 using SingleHostedServer.Event.User;
 
 namespace SingleHostedServer.Event
@@ -27,11 +25,5 @@ namespace SingleHostedServer.Event
             });
             
         }
-
-
-        //public async Task Consume(ConsumeContext<UserCreated> context)
-        //{
-        //    Console.WriteLine($"I am from  event handler");
-        //}
     }
 }
