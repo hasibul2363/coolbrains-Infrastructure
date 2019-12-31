@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using CoolBrains.Infrastructure;
 using CoolBrains.Infrastructure.Commands;
 using CoolBrains.Infrastructure.Events;
 using CoolBrains.Infrastructure.Extensions;
+using CoolBrains.Infrastructure.Queries;
 using CoolBrains.Infrastructure.Session;
 using CoolBrains.Infrastructure.Store.Mongo;
 using CoolBrains.Infrastructure.Store.Mongo.Extensions;
@@ -16,6 +18,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using SingleHostedServer.Command;
 using SingleHostedServer.Event;
+using SingleHostedServer.Event.User;
+using SingleHostedServer.Query;
 
 namespace SingleHostedServer
 {
@@ -42,6 +46,7 @@ namespace SingleHostedServer
             });
 
             services.AddTransient<ICommandHandler<CreateUserCommand>, CreateUserCommandHandler>();
+            services.AddScoped<IQueryHandler<UserQuery, List<UserInfo>>, UserQueryHandler>();
             //services.AddTransient<IEventHandlerAsync<UserCreated>, UserCreatedEventHandler>();
             services.AddTransient<UserCreatedEventHandler>();
 
@@ -74,15 +79,20 @@ namespace SingleHostedServer
         {
             BuildConfiguration();
             Register();
-            var command = new CreateUserCommand
-            {
-                Email = "hasibul2363@gmail.com", UserName = "hasibul2363"
-            };
+            
 
             var bus = _serviceProvider.GetService<IDispatcher>();
             while (true)
             {
-                var response = bus.Send(command);
+                var response = bus.Send(new CreateUserCommand
+                {
+                    Email = "hasibul2363@gmail.com",
+                    UserName = "hasibul2363"
+                });
+
+                var query = new UserQuery{ SearchText = "ha"};
+                var users = bus.GetResult(query);
+                Console.WriteLine($"Query: Total user found {users.Count}");
 
                 Console.WriteLine("q to exit");
                 var s = Console.ReadLine();

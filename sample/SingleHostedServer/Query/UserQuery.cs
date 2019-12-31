@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using CoolBrains.Infrastructure.Queries;
+using CoolBrains.Infrastructure.Session;
+using SingleHostedServer.Event.User;
 
 namespace SingleHostedServer.Query
 {
-    class UserQuery
+    public class UserQuery : Query<List<UserInfo>>
     {
-        public string UserName { get; set; }
-        public int PageNumber { get; set; }
+        public string SearchText { get; set; }
     }
 }
