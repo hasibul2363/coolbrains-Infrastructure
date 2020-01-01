@@ -25,9 +25,11 @@ steps:
     command: 'build'
     projects: 'src/**/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
+
+
 - task: NuGetCommand@2
   inputs:
     command: 'push'
     packagesToPush: 'src/**/*.nupkg'
-    nuGetFeedType: 'external'
-    publishFeedCredentials: 'coolbrains-github'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '4e31baed-0ab5-4ec0-862d-ae402bfa05d3/de0816ba-d785-454b-abec-674f5f4d898d'
