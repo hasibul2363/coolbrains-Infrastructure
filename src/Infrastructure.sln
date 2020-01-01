@@ -19,7 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{666847
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleHostedServer", "..\sample\SingleHostedServer\SingleHostedServer.csproj", "{13B7BDBE-2C7D-477E-AF7E-E1918B3682A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoolBrains.Bus.RabbitMQ", "CoolBrains.Bus.RabbitMQ\CoolBrains.Bus.RabbitMQ.csproj", "{1AA38584-E32F-4C08-9148-430C1F8B4C90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoolBrains.Bus.RabbitMQ", "CoolBrains.Bus.RabbitMQ\CoolBrains.Bus.RabbitMQ.csproj", "{1AA38584-E32F-4C08-9148-430C1F8B4C90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTypes", "CommonTypes\CommonTypes.csproj", "{08B65733-55EE-412B-B498-B7A21401344B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{1AA38584-E32F-4C08-9148-430C1F8B4C90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AA38584-E32F-4C08-9148-430C1F8B4C90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AA38584-E32F-4C08-9148-430C1F8B4C90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08B65733-55EE-412B-B498-B7A21401344B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08B65733-55EE-412B-B498-B7A21401344B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08B65733-55EE-412B-B498-B7A21401344B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08B65733-55EE-412B-B498-B7A21401344B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

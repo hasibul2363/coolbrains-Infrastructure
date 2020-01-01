@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>CoolBrains.Infrastructure.CommonTypes</AssemblyName>
+    <RootNamespace>CoolBrains.Infrastructure.CommonTypes</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.1</Version>
+  </PropertyGroup>
+
+</Project>
