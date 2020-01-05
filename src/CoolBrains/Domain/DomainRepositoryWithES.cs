@@ -18,12 +18,12 @@ namespace CoolBrains.Infrastructure.Domain
 
         public async Task SaveAsync(T aggregate)
         {
-            await _domainStore.SaveAsync(typeof(T), aggregate.Id, aggregate.Events);
+            await _domainStore.SaveAsync(aggregate.Id, aggregate.Events);
         }
 
         public void Save(T aggregate)
         {
-            _domainStore.Save(typeof(T), aggregate.Id, aggregate.Events);
+            _domainStore.Save(aggregate.Id, aggregate.Events);
         }
 
         public async Task<T> GetByIdAsync(Guid id)

@@ -51,7 +51,7 @@ namespace CoolBrains.Infrastructure.Domain
         protected void AddAndApplyEvent<T>(IDomainEvent @event) where T: IAggregateRoot
         {
             @event.AggregateRootId = this.Id;
-            @event.Source = typeof(T);
+            @event.Source = typeof(T).FullName;
             @event.TimeStamp = DateTime.UtcNow;
             AddEvent(@event);
             ApplyEvent(@event);

@@ -5,7 +5,7 @@ namespace CoolBrains.Infrastructure.Events
 {
     public interface IEvent: ISecurityInfo
     {
-        Type Source { get; set; }
+        string Source { get; set; }
         DateTime TimeStamp { get; set; }
     }
 }

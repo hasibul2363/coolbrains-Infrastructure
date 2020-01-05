@@ -17,7 +17,7 @@ namespace CoolBrains.Infrastructure.Store.Mongo
             _repository = repository;
         }
 
-        public void Save(Type aggregateType, Guid aggregateRootId, IEnumerable<IDomainEvent> events)
+        public void Save(Guid aggregateRootId, IEnumerable<IDomainEvent> events)
         {
             if (events == null)
                 return;
@@ -30,7 +30,7 @@ namespace CoolBrains.Infrastructure.Store.Mongo
 
 
 
-        public Task SaveAsync(Type aggregateType, Guid aggregateRootId, IEnumerable<IDomainEvent> events)
+        public Task SaveAsync(Guid aggregateRootId, IEnumerable<IDomainEvent> events)
         {
             if (events == null)
                 return Task.CompletedTask;
@@ -74,7 +74,7 @@ namespace CoolBrains.Infrastructure.Store.Mongo
             {
                 Id = @event.Id,
                 AggregateId = @event.AggregateRootId,
-                AggregateType = @event.Source.Name,
+                AggregateType = @event.Source,
                 Data = Newtonsoft.Json.JsonConvert.SerializeObject(@event),
                 Type = @event.GetType().Name,
                 Sequence = sequence,

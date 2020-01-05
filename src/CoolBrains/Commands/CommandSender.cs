@@ -40,8 +40,8 @@ namespace CoolBrains.Infrastructure.Commands
                 return null;
 
             if (response.Events == null)
-                return response;
-            
+                return new CommandResponse(response.ValidationResult, response.ValidationResult);
+
             if (response.Events != null)
                 foreach (var @event in (IEnumerable<IDomainEvent>)response.Events)
                 {
@@ -53,7 +53,7 @@ namespace CoolBrains.Infrastructure.Commands
             var events = (IEnumerable<IDomainEvent>) response.Events;
             var aggregateDetail = events.First();
 
-            await _domainStore.SaveAsync(aggregateDetail.Source, aggregateDetail.AggregateRootId, events);
+            await _domainStore.SaveAsync(aggregateDetail.AggregateRootId, events);
 
             if (command.PublishEvent)
             {
@@ -64,7 +64,7 @@ namespace CoolBrains.Infrastructure.Commands
                     
             }
 
-            return response;
+            return new CommandResponse(response.ValidationResult, response.ValidationResult);
         }
 
       
@@ -89,7 +89,7 @@ namespace CoolBrains.Infrastructure.Commands
                 return null;
 
             if (response.Events == null)
-                return response;
+                return new CommandResponse(response.ValidationResult, response.ValidationResult);
 
             if (response.Events != null)
                 foreach (var @event in (IEnumerable<IDomainEvent>)response.Events)
@@ -102,7 +102,7 @@ namespace CoolBrains.Infrastructure.Commands
             var events = (IEnumerable<IDomainEvent>)response.Events;
             var aggregateDetail = events.First();
 
-            _domainStore.Save(aggregateDetail.Source, aggregateDetail.AggregateRootId, events);
+            _domainStore.Save(aggregateDetail.AggregateRootId, events);
 
             if (command.PublishEvent)
             {
@@ -110,7 +110,7 @@ namespace CoolBrains.Infrastructure.Commands
                     _eventPublisher.PublishAsync(@event).GetAwaiter().GetResult();
             }
 
-            return response;
+            return new CommandResponse(response.ValidationResult, response.ValidationResult);
         }
     }
 }
