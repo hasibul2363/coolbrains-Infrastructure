@@ -20,21 +20,18 @@ namespace CoolBrains.Infrastructure.Extensions
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            //var typeList = types.ToList();
-            //typeList.Add(typeof(IDispatcher));
+            services.AddScoped<IResolver, Resolver>();
+            services.AddScoped<IHandlerResolver, HandlerResolver>();
+            services.AddScoped<IDispatcher, Dispatcher>();
+            services.AddScoped<IQueueClient, DefaultQueueClient>();
+            services.AddScoped<ITopicClient, DefaultTopicClient>();
 
-
-
-            services.AddSingleton<IResolver, Resolver>();
-            services.AddSingleton<IHandlerResolver, HandlerResolver>();
-            services.AddSingleton<IDispatcher, Dispatcher>();
             services.AddScoped(typeof(IDomainRepository<>), typeof(DomainRepository<>));
             services.AddScoped<IBusMessageDispatcher, BusMessageDispatcher>();
             services.AddScoped<ICommandSender, CommandSender>();
             services.AddScoped<IEventPublisher, EventPublisher>();
             services.AddScoped<IQueryProcessor, QueryProcessor>();
-            services.AddSingleton<IQueueClient, DefaultQueueClient>();
-            services.AddSingleton<ITopicClient, DefaultTopicClient>();
+            
 
 
             /*
