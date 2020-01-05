@@ -5,7 +5,7 @@ namespace CoolBrains.Infrastructure.Commands
 {
     public class CommandResponse
     {
-        public IEnumerable<IEvent> Events { get; set; } = new List<IEvent>();
+        public IEnumerable<IEvent> Events { get; set; }
         public ValidationResult ValidationResult { get; set; }
         public object Result { get; set; }
     }
