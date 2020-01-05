@@ -34,7 +34,7 @@ namespace CoolBrains.Infrastructure.Commands
             
             var handler = _handlerResolver.ResolveHandler(command, typeof(ICommandHandlerAsync<>));
             var handleMethod = handler.GetType().GetMethod("HandleAsync", new[] { command.GetType() });
-            var response = await (Task<CommandResponse>)handleMethod.Invoke(handler, new object[] { command });
+            var response = await (Task<CommandResponseWithEvents>)handleMethod.Invoke(handler, new object[] { command });
 
             if (response == null)
                 return null;
@@ -83,7 +83,7 @@ namespace CoolBrains.Infrastructure.Commands
 
             var handler = _handlerResolver.ResolveHandler(command, typeof(ICommandHandler<>));
             var handleMethod = handler.GetType().GetMethod("Handle", new[] { command.GetType() });
-            var response = (CommandResponse)handleMethod.Invoke(handler, new object[] { command });
+            var response = (CommandResponseWithEvents)handleMethod.Invoke(handler, new object[] { command });
 
             if (response == null)
                 return null;

@@ -7,12 +7,14 @@ namespace CoolBrains.Infrastructure.Commands
 {
     public class CommandResponse
     {
-        [IgnoreDataMember]
-        [JsonIgnore]
-        public IEnumerable<IEvent> Events { get; set; }
         public ValidationResult ValidationResult { get; set; }
         public object Result { get; set; }
     }
 
-    
+    public class CommandResponseWithEvents : CommandResponse
+    {
+        public IEnumerable<IEvent> Events { get; set; }
+    }
+
+
 }

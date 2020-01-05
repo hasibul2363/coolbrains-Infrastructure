@@ -4,6 +4,6 @@ namespace CoolBrains.Infrastructure.Commands
 {
     public interface ICommandHandlerAsync<in TCommand> where TCommand : ICommand
     {
-        Task<CommandResponse> HandleAsync(TCommand command);
+        Task<CommandResponseWithEvents> HandleAsync(TCommand command);
     }
 }

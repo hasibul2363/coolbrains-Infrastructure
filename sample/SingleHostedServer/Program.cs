@@ -58,8 +58,6 @@ namespace SingleHostedServer
                 .AddMongoDbProvider(_configuration);
             _serviceProvider = services.BuildServiceProvider();
 
-            var handler = _serviceProvider.GetService<UserCreatedEventHandler>();
-
             builder.AddRabbitMqProvider(_configuration)
                 .Listen(
                     e =>
