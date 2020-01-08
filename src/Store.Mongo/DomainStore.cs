@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using CoolBrains.Infrastructure.Domain;
 using CoolBrains.Infrastructure.Store.Abstraction;
@@ -47,26 +48,25 @@ namespace CoolBrains.Infrastructure.Store.Mongo
             var events = _repository.GetItems<EventDocument>(p => p.AggregateId == aggregateId);
             foreach (var eventDocument in events)
             {
-                var domainEvent = Newtonsoft.Json.JsonConvert.DeserializeObject(eventDocument.Data, Type.GetType(eventDocument.Type));
+                var domainEvent = Newtonsoft.Json.JsonConvert.DeserializeObject(eventDocument.Data, GetTypeByFullName(eventDocument.Type));
                 domainEvents.Add((IDomainEvent) domainEvent);
             }
 
             return domainEvents;
         }
 
-        public async Task<IEnumerable<IDomainEvent>> GetEventsAsync(Guid aggregateId)
-        {
-            var domainEvents = new List<IDomainEvent>();
-            var events = _repository.GetItems<EventDocument>(p => p.AggregateId == aggregateId);
-            foreach (var eventDocument in events)
-            {
-                var domainEvent = Newtonsoft.Json.JsonConvert.DeserializeObject(eventDocument.Data, Type.GetType(eventDocument.Type));
-                domainEvents.Add((IDomainEvent)domainEvent);
-            }
 
-            return domainEvents;
+        //TODO Require future modifcation
+        private Type GetTypeByFullName(string fullTypeName)
+        {
+            var asm = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(p => fullTypeName.Contains(p.GetName().Name));
+            return asm?.GetType(fullTypeName);
         }
 
+        public async Task<IEnumerable<IDomainEvent>> GetEventsAsync(Guid aggregateId)
+        {
+            return GetEvents(aggregateId);
+        }
 
         private EventDocument Build(IDomainEvent @event, int sequence)
         {
@@ -76,7 +76,7 @@ namespace CoolBrains.Infrastructure.Store.Mongo
                 AggregateId = @event.AggregateRootId,
                 AggregateType = @event.Source,
                 Data = Newtonsoft.Json.JsonConvert.SerializeObject(@event),
-                Type = @event.GetType().Name,
+                Type = @event.GetType().FullName,
                 Sequence = sequence,
                 UserId = @event.UserContext.UserId,
                 TimeStamp = @event.TimeStamp

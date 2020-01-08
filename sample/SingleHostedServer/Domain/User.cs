@@ -11,10 +11,15 @@ namespace SingleHostedServer.Domain
         public string UserName { get; private set; }
         public string Email { get; private set; }
 
+        public User()
+        {
+            
+        }
         public User(string userName, string email, Guid userId) : base(userId)
         {
             AddAndApplyEvent<User>(new UserCreated
             {
+                AggregateRootId = userId,
                 Email = email, 
                 UserName = userName, 
             });
@@ -22,9 +27,25 @@ namespace SingleHostedServer.Domain
 
         private void Apply(UserCreated @event)
         {
+            this.Id = @event.AggregateRootId;
             this.Email = @event.Email;
             this.UserName = @event.UserName;
         }
 
+
+        public void Update(string userName)
+        {
+            AddAndApplyEvent<User>(new UserUpdated
+            {
+                Email = Email,
+                UserName = userName,
+                AggregateRootId = Id
+            });
+        }
+
+        private void Apply(UserUpdated @event)
+        {
+            this.UserName = @event.UserName;
+        }
     }
 }

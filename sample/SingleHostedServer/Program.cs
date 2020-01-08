@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Mime;
+using System.Reflection;
 using System.Threading.Tasks;
 using CoolBrains.Infrastructure.Bus.RabbitMQ;
 using CoolBrains.Infrastructure;
@@ -46,6 +47,7 @@ namespace SingleHostedServer
             });
 
             services.AddTransient<ICommandHandler<CreateUserCommand>, CreateUserCommandHandler>();
+            services.AddTransient<ICommandHandler<UserUpdateCommand>, UserUpdateCommandHandler>();
             services.AddScoped<IQueryHandler<UserQuery, List<UserInfo>>, UserQueryHandler>();
             //services.AddTransient<IEventHandlerAsync<UserCreated>, UserCreatedEventHandler>();
             services.AddTransient<UserCreatedEventHandler>();
@@ -77,20 +79,28 @@ namespace SingleHostedServer
         {
             BuildConfiguration();
             Register();
-            
+            //var asm = Assembly.Load("SingleHostedServer");
 
             var bus = _serviceProvider.GetService<IDispatcher>();
             while (true)
             {
-                var response = bus.Send(new CreateUserCommand
+                var command = new CreateUserCommand
                 {
                     Email = "hasibul2363@gmail.com",
-                    UserName = "hasibul2363"
-                });
+                    UserName = "hasibul2363",
+                    UserId = Guid.Parse("f5414aad-69b8-4a81-bebf-45d9dbbd71df")
+                };
+
+                //var response = bus.Send(command);
 
                 var query = new UserQuery{ SearchText = "ha"};
                 var users = bus.GetResult(query);
                 Console.WriteLine($"Query: Total user found {users.Count}");
+
+
+
+                var updateResponse = bus.Send(new UserUpdateCommand {Id = Guid.Parse("f5414aad-69b8-4a81-bebf-45d9dbbd71df"), UserName = "masud5"});
+
 
                 Console.WriteLine("q to exit");
                 var s = Console.ReadLine();
