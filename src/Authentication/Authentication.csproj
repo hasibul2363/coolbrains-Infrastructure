@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AssemblyName>CoolBrains.Infrastructure.AspNet.Authentication</AssemblyName>
+    <RootNamespace>CoolBrains.Infrastructure.AspNet.Authentication</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OAuth\OAuth.csproj" />
+  </ItemGroup>
+</Project>

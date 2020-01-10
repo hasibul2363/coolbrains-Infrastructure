@@ -21,7 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleHostedServer", "..\sa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoolBrains.Bus.RabbitMQ", "CoolBrains.Bus.RabbitMQ\CoolBrains.Bus.RabbitMQ.csproj", "{1AA38584-E32F-4C08-9148-430C1F8B4C90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTypes", "CommonTypes\CommonTypes.csproj", "{08B65733-55EE-412B-B498-B7A21401344B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonTypes", "CommonTypes\CommonTypes.csproj", "{08B65733-55EE-412B-B498-B7A21401344B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuth", "OAuth\OAuth.csproj", "{E13CEA54-B1B6-4FAB-925F-0613C1C9F427}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Host.AspNetCore", "Host.AspNetCore\Host.AspNetCore.csproj", "{D02C545C-2870-4DD3-88CC-4A892B4431F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +65,14 @@ Global
 		{08B65733-55EE-412B-B498-B7A21401344B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08B65733-55EE-412B-B498-B7A21401344B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08B65733-55EE-412B-B498-B7A21401344B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E13CEA54-B1B6-4FAB-925F-0613C1C9F427}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E13CEA54-B1B6-4FAB-925F-0613C1C9F427}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E13CEA54-B1B6-4FAB-925F-0613C1C9F427}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E13CEA54-B1B6-4FAB-925F-0613C1C9F427}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D02C545C-2870-4DD3-88CC-4A892B4431F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D02C545C-2870-4DD3-88CC-4A892B4431F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D02C545C-2870-4DD3-88CC-4A892B4431F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D02C545C-2870-4DD3-88CC-4A892B4431F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

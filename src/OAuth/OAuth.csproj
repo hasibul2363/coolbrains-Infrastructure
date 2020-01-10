@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>CoolBrains.Infrastructure.OAuth</AssemblyName>
+    <RootNamespace>CoolBrains.Infrastructure.OAuth</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="jose-jwt" Version="2.5.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CoolBrains\CoolBrains.csproj" />
+  </ItemGroup>
+
+</Project>
