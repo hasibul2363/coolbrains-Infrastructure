@@ -17,7 +17,9 @@ namespace CoolBrains.Infrastructure.OAuth
         }
         public TokenInfo GenerateAccessToken(UserContext userContext, int tokenLifeTimeInMinutes = 0)
         {
-            var secretKey = Encoding.ASCII.GetBytes(_tokenConfig.TokenSigningKey);
+            var secretKey = Encoding.ASCII.GetBytes
+                ("2363-2374-OFFKDI940NG7:56753253-tyuw-5769-0921-kfirox29zoxv");
+            //var secretKey = Encoding.ASCII.GetBytes(_tokenConfig.TokenSigningKey);
 
             if (tokenLifeTimeInMinutes <= 0)
                 tokenLifeTimeInMinutes = _tokenConfig.TokenLifetimeInMinutes;
@@ -25,16 +27,16 @@ namespace CoolBrains.Infrastructure.OAuth
             if (tokenLifeTimeInMinutes == 0)
                 tokenLifeTimeInMinutes = 60;
 
-            var issued = DateTime.UtcNow;
-            var expire = DateTime.UtcNow.AddMinutes(tokenLifeTimeInMinutes);
+            var issued = DateTime.Now;
+            var expire = DateTime.Now.AddMinutes(tokenLifeTimeInMinutes);
 
             var payload = new Dictionary<string, object>()
             {
                 {ClaimTypes.TokenIssuer, userContext.TokenIssuer},
                 {ClaimTypes.ClientId, userContext.ClientId},
                 {ClaimTypes.Audience, userContext.Audiences},
-                {"iat", issued},
-                {"exp", expire},
+                {"iat", ToUnixTime(issued).ToString()},
+                {"exp", ToUnixTime(expire).ToString()},
                 {ClaimTypes.TenantId, userContext.TenantId.ToString().ToUpper()},
                 {ClaimTypes.UserId, userContext.UserId},
                 {ClaimTypes.Role, userContext.Roles}
@@ -59,6 +61,9 @@ namespace CoolBrains.Infrastructure.OAuth
             return tokenInfo;
         }
 
-        
+        private long ToUnixTime(DateTime dateTime)
+        {
+            return (int)(dateTime.ToUniversalTime().Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+        }
     }
 }

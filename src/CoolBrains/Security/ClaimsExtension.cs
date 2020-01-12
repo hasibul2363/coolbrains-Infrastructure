@@ -22,7 +22,8 @@ namespace CoolBrains.Infrastructure.Security
             var userContext = new UserContext(Guid.Parse(userId), Guid.Parse(tenantId))
             {
                 ClientId = Guid.Parse(claims.GetClaimValue(ClaimTypes.ClientId)),
-                Audiences = claims.GetClaimValues(ClaimTypes.Audience)?.ToArray()
+                //TODO
+                Audiences = "*"//claims.GetClaimValues(ClaimTypes.Audience)?.ToArray()
             };
 
             var roles = claims.GetClaimValues(System.Security.Claims.ClaimTypes.Role);
@@ -50,10 +51,12 @@ namespace CoolBrains.Infrastructure.Security
 
             if (userContext.Audiences != null && userContext.Audiences.Length > 0)
             {
-                foreach (var audience in userContext.Audiences)
-                {
-                    claims.Add(new Claim(ClaimTypes.Audience, audience));
-                }
+                //foreach (var audience in userContext.Audiences)
+                //{
+                //    claims.Add(new Claim(ClaimTypes.Audience, audience));
+                //}
+
+                claims.Add(new Claim(ClaimTypes.Audience, userContext.Audiences));
             }
 
             var identity = new ClaimsIdentity(claims);
