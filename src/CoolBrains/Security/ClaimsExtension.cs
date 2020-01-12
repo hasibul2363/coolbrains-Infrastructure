@@ -23,7 +23,7 @@ namespace CoolBrains.Infrastructure.Security
             {
                 ClientId = Guid.Parse(claims.GetClaimValue(ClaimTypes.ClientId)),
                 //TODO
-                Audiences = "*"//claims.GetClaimValues(ClaimTypes.Audience)?.ToArray()
+                Audience = "*"//claims.GetClaimValues(ClaimTypes.Audience)?.ToArray()
             };
 
             var roles = claims.GetClaimValues(System.Security.Claims.ClaimTypes.Role);
@@ -49,14 +49,14 @@ namespace CoolBrains.Infrastructure.Security
                 }
             }
 
-            if (userContext.Audiences != null && userContext.Audiences.Length > 0)
+            if (userContext.Audience != null && userContext.Audience.Length > 0)
             {
-                //foreach (var audience in userContext.Audiences)
+                //foreach (var audience in userContext.Audience)
                 //{
                 //    claims.Add(new Claim(ClaimTypes.Audience, audience));
                 //}
 
-                claims.Add(new Claim(ClaimTypes.Audience, userContext.Audiences));
+                claims.Add(new Claim(ClaimTypes.Audience, userContext.Audience));
             }
 
             var identity = new ClaimsIdentity(claims);

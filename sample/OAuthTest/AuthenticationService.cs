@@ -22,10 +22,10 @@ namespace OAuthTest
         public TokenInfo GetAnonymousToken(HttpContext context)
         {
             var userContext = new UserContext();
-            userContext.Audiences = "security.coolbrains.co";
+            //userContext.Audience = "security.coolbrains.co";
             userContext.Roles = new[] { "anonymous" };
             //TODO
-            userContext.TokenIssuer = _tokenConfig.TokenIssuers.First();
+            //userContext.TokenIssuer = _tokenConfig.TokenIssuers.First();
             context.SetClientIdAndTenantIdToUserContext(userContext);
             return userContext.TenantId == Guid.Empty ? null : _tokenGenerator.GenerateAccessToken(userContext);
         }

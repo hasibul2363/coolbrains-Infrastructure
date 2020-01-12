@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using CoolBrains.Infrastructure.Host.AspNetCore.Authentication;
 using CoolBrains.Infrastructure.OAuth;
 using CoolBrains.Infrastructure.Session;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
+
 namespace OAuthTest
 {
     public class Startup
@@ -32,56 +36,46 @@ namespace OAuthTest
             services.AddTransient<AuthenticationService>();
             services.AddTransient<IOauthAccessTokenGenerator, OauthAccessTokenGenerator>();
             services.Configure<TokenConfig>(Configuration.GetSection("TokenConfig"));
-            services.AddControllers();
             services.AddJwtBearerAuthentication(Configuration);
-            services.AddMvc(a => a.EnableEndpointRouting = false);
-            //MvcOptions.EnableEndpointRouting = false;
+            services.AddControllers();
+
+
+
+            //var key = Encoding.ASCII.GetBytes("2363-2374-OFFKDI940NG7:56753253-tyuw-5769-0921-kfirox29zoxv");
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //    .AddJwtBearer(options => {
+            //        options.TokenValidationParameters = new TokenValidationParameters
+            //        {
+            //            ValidateIssuerSigningKey = true,
+            //            IssuerSigningKey = new SymmetricSecurityKey(key),
+            //            ValidateIssuer = false,
+            //            ValidateAudience = false,
+            //            ValidateLifetime = false,
+            //            ValidIssuer = "security.coolbrains.co",
+            //            ValidAudience = "*"
+            //        };
+            //    });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
             app.UseRouting();
-            app.UseAuthorization();
             app.UseAuthentication();
-          
+            app.UseAuthorization();
+        
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
-            //app.UseMvc();
-
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
-
-
-            //app.UseRouting();
-
-            //app.UseAuthorization();
-
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllers();
-            //});
-
-
-
-            //app.UseAuthentication();
-
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "[controller]/[action]");
-            //});
         }
     }
 }

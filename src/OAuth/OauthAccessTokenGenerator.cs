@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
 using System.Text;
-using CoolBrains.Infrastructure.Security;
 using CoolBrains.Infrastructure.Session;
 using Jose;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using ClaimTypes = CoolBrains.Infrastructure.Security.ClaimTypes;
 
 namespace CoolBrains.Infrastructure.OAuth
 {
@@ -17,9 +21,7 @@ namespace CoolBrains.Infrastructure.OAuth
         }
         public TokenInfo GenerateAccessToken(UserContext userContext, int tokenLifeTimeInMinutes = 0)
         {
-            var secretKey = Encoding.ASCII.GetBytes
-                ("2363-2374-OFFKDI940NG7:56753253-tyuw-5769-0921-kfirox29zoxv");
-            //var secretKey = Encoding.ASCII.GetBytes(_tokenConfig.TokenSigningKey);
+            var secretKey = Encoding.ASCII.GetBytes(_tokenConfig.TokenSigningKey);
 
             if (tokenLifeTimeInMinutes <= 0)
                 tokenLifeTimeInMinutes = _tokenConfig.TokenLifetimeInMinutes;
@@ -30,19 +32,29 @@ namespace CoolBrains.Infrastructure.OAuth
             var issued = DateTime.Now;
             var expire = DateTime.Now.AddMinutes(tokenLifeTimeInMinutes);
 
-            var payload = new Dictionary<string, object>()
+            var claims = new List<Claim>
             {
-                {ClaimTypes.TokenIssuer, userContext.TokenIssuer},
-                {ClaimTypes.ClientId, userContext.ClientId},
-                {ClaimTypes.Audience, userContext.Audiences},
-                {"iat", ToUnixTime(issued).ToString()},
-                {"exp", ToUnixTime(expire).ToString()},
-                {ClaimTypes.TenantId, userContext.TenantId.ToString().ToUpper()},
-                {ClaimTypes.UserId, userContext.UserId},
-                {ClaimTypes.Role, userContext.Roles}
+                new Claim(ClaimTypes.ClientId, userContext.ClientId.ToString()),
+                new Claim(ClaimTypes.TenantId, userContext.TenantId.ToString()),
+                new Claim(ClaimTypes.UserId, userContext.UserId.ToString()),
+                new Claim(ClaimTypes.Audience, "*")
             };
 
-            string token = JWT.Encode(payload, secretKey, JwsAlgorithm.HS256);
+            //TODO
+            claims.Add(new Claim(ClaimTypes.TokenIssuer, _tokenConfig.TokenIssuers.First()));
+            claims.Add(new Claim(ClaimTypes.Role, userContext.Roles.First()));
+            
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddMinutes(_tokenConfig.TokenLifetimeInMinutes),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKey), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var tokenString = tokenHandler.WriteToken(token);
+
             var refreshToken = new RefreshToken
             {
                 Id = Guid.NewGuid(),
@@ -54,7 +66,7 @@ namespace CoolBrains.Infrastructure.OAuth
 
             var tokenInfo = new TokenInfo
             {
-                Token = token
+                Token = tokenString
             };
 
             tokenInfo.SetRefreshToken(refreshToken);
