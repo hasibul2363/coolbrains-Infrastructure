@@ -39,7 +39,14 @@ namespace CoolBrains.Infrastructure.Host.AspNetCore.Authentication
             requestInfo.Headers = headers;
 
 
-            userContext = context.User.GetAuthData();
+            var authData = context.User.GetAuthData();
+            userContext.UserId = authData.UserId;
+            userContext.Audience = authData.Audience;
+            userContext.ClientId = authData.ClientId;
+            userContext.Roles = authData.Roles;
+            userContext.TenantId = authData.TenantId;
+            userContext.TokenIssuer = authData.TokenIssuer;
+            
         }
         public static Uri GetUri(HttpRequest request)
         {

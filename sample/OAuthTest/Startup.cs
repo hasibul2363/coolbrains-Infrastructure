@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CoolBrains.Infrastructure.Extensions;
 using CoolBrains.Infrastructure.Host.AspNetCore.Authentication;
 using CoolBrains.Infrastructure.OAuth;
 using CoolBrains.Infrastructure.Session;
@@ -31,31 +32,15 @@ namespace OAuthTest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<UserContext>();
-            services.AddTransient<RequestInfo>();
+            //services.AddTransient<UserContext>();
+            //services.AddTransient<RequestInfo>();
             services.AddTransient<AuthenticationService>();
-            services.AddTransient<IOauthAccessTokenGenerator, OauthAccessTokenGenerator>();
-            services.Configure<TokenConfig>(Configuration.GetSection("TokenConfig"));
-            services.AddJwtBearerAuthentication(Configuration);
+            //services.AddTransient<IOauthAccessTokenGenerator, OauthAccessTokenGenerator>();
+            //services.Configure<TokenConfig>(Configuration.GetSection("TokenConfig"));
+            //services.AddJwtBearerAuthentication(Configuration);
+            services
+                .AddAuth(Configuration);
             services.AddControllers();
-
-
-
-            //var key = Encoding.ASCII.GetBytes("2363-2374-OFFKDI940NG7:56753253-tyuw-5769-0921-kfirox29zoxv");
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //    .AddJwtBearer(options => {
-            //        options.TokenValidationParameters = new TokenValidationParameters
-            //        {
-            //            ValidateIssuerSigningKey = true,
-            //            IssuerSigningKey = new SymmetricSecurityKey(key),
-            //            ValidateIssuer = false,
-            //            ValidateAudience = false,
-            //            ValidateLifetime = false,
-            //            ValidIssuer = "security.coolbrains.co",
-            //            ValidAudience = "*"
-            //        };
-            //    });
-
 
         }
 
@@ -71,7 +56,10 @@ namespace OAuthTest
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-        
+            app.UseWebSecurityContextInitializer();
+
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

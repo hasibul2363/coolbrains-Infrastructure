@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+using CoolBrains.Infrastructure.Bus;
+using CoolBrains.Infrastructure.Extensions;
 using CoolBrains.Infrastructure.OAuth;
+using CoolBrains.Infrastructure.Session;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,7 +48,14 @@ namespace CoolBrains.Infrastructure.Host.AspNetCore.Authentication
 
             serviceCollection.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(configureOptions);
         }
-
+        public static void AddAuth(this IServiceCollection serviceCollection, IConfiguration configuration)
+        {
+            serviceCollection.AddScoped<UserContext>();
+            serviceCollection.AddScoped<RequestInfo>();
+            serviceCollection.AddTransient<IOauthAccessTokenGenerator, OauthAccessTokenGenerator>();
+            serviceCollection.Configure<TokenConfig>(configuration.GetSection("TokenConfig"));
+            serviceCollection.AddJwtBearerAuthentication(configuration);
+        }
 
         private static Task TokenValidated(TokenValidatedContext tokenValidatedContext)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoolBrains.Infrastructure.Session;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,12 @@ namespace OAuthTest.Controllers
     [Authorize(Roles = "anonymous")]
     public class HomeController : ControllerBase
     {
+
+        public HomeController(UserContext usedContext)
+        {
+            
+        }
+
         [HttpGet]
         [Route("Index")]
         public string Index()

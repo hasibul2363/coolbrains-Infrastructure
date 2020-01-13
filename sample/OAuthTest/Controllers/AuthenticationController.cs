@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CoolBrains.Infrastructure.Session;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -15,10 +16,11 @@ namespace OAuthTest.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly AuthenticationService _authenticationService;
-
-        public AuthenticationController(AuthenticationService authenticationService)
+        private UserContext _userContext;
+        public AuthenticationController(AuthenticationService authenticationService, UserContext userContext)
         {
             _authenticationService = authenticationService;
+            _userContext = userContext;
         }
 
         [Route("AnonymousToken")]
