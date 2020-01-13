@@ -41,9 +41,10 @@ namespace SingleHostedServer
             IServiceCollection services = new ServiceCollection();
             services.AddMassTransit();
 
-            services.AddSingleton<UserContext>(new UserContext
+            services.AddScoped<UserContext>(p=> new UserContext
             {
-                UserId = Guid.NewGuid(), TenantId = Guid.Parse("97f1c1d9-4219-4fc3-adf4-19fdb9dd8846")
+                UserId = Guid.NewGuid(),
+                TenantId = Guid.Parse("97f1c1d9-4219-4fc3-adf4-19fdb9dd8846")
             });
 
             services.AddTransient<ICommandHandler<CreateUserCommand>, CreateUserCommandHandler>();
@@ -86,12 +87,12 @@ namespace SingleHostedServer
             {
                 var command = new CreateUserCommand
                 {
-                    Email = "hasibul2363@gmail.com",
-                    UserName = "hasibul2363",
-                    UserId = Guid.Parse("f5414aad-69b8-4a81-bebf-45d9dbbd71df")
+                    Email = "hasibul236355@gmail.com",
+                    UserName = "hasibul236355",
+                    UserId = Guid.Parse("bff5b1ee-5fec-4096-9e0d-7201b30eea66")
                 };
 
-                //var response = bus.Send(command);
+                var response = bus.Send(command);
 
                 var query = new UserQuery{ SearchText = "ha"};
                 var users = bus.GetResult(query);
