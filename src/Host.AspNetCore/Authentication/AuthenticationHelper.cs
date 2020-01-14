@@ -14,7 +14,7 @@ namespace CoolBrains.Infrastructure.Host.AspNetCore.Authentication
 {
     public static class AuthenticationHelper
     {
-        public static void AddJwtBearerAuthentication(this IServiceCollection serviceCollection, IConfiguration configuration, Action<JwtBearerOptions> configureOptions = null, JwtBearerEvents bearerEvents = null)
+        private static void AddJwtBearerAuthentication(this IServiceCollection serviceCollection, IConfiguration configuration, Action<JwtBearerOptions> configureOptions = null, JwtBearerEvents bearerEvents = null)
         {
             var tokenConfig = new TokenConfig();
             configuration.GetSection("TokenConfig").Bind(tokenConfig);
@@ -48,13 +48,14 @@ namespace CoolBrains.Infrastructure.Host.AspNetCore.Authentication
 
             serviceCollection.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(configureOptions);
         }
-        public static void AddAuth(this IServiceCollection serviceCollection, IConfiguration configuration)
+        public static ICoolBrainsServiceBuilder AddAuth(this ICoolBrainsServiceBuilder builder, IConfiguration configuration, Action<JwtBearerOptions> configureOptions = null, JwtBearerEvents bearerEvents = null)
         {
-            serviceCollection.AddScoped<UserContext>();
-            serviceCollection.AddScoped<RequestInfo>();
-            serviceCollection.AddTransient<IOauthAccessTokenGenerator, OauthAccessTokenGenerator>();
-            serviceCollection.Configure<TokenConfig>(configuration.GetSection("TokenConfig"));
-            serviceCollection.AddJwtBearerAuthentication(configuration);
+            builder.Services.AddScoped<UserContext>();
+            builder.Services.AddScoped<RequestInfo>();
+            builder.Services.AddTransient<IOauthAccessTokenGenerator, OauthAccessTokenGenerator>();
+            builder.Services.Configure<TokenConfig>(configuration.GetSection("TokenConfig"));
+            builder.Services.AddJwtBearerAuthentication(configuration);
+            return builder;
         }
 
         private static Task TokenValidated(TokenValidatedContext tokenValidatedContext)

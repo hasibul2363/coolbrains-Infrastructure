@@ -38,8 +38,9 @@ namespace OAuthTest
             //services.AddTransient<IOauthAccessTokenGenerator, OauthAccessTokenGenerator>();
             //services.Configure<TokenConfig>(Configuration.GetSection("TokenConfig"));
             //services.AddJwtBearerAuthentication(Configuration);
-            services
-                .AddAuth(Configuration);
+
+
+            services.AddCoolBrains().AddAuth(Configuration);
             services.AddControllers();
 
         }
@@ -56,6 +57,8 @@ namespace OAuthTest
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            
+            
             app.UseWebSecurityContextInitializer();
 
 
