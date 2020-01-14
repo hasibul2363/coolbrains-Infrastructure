@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CoolBrains.Infrastructure.Bus
 {
-    class DefaultQueueClient : IQueueClient
+    public class DefaultQueueClient : IQueueClient
     {
         public Task SendAsync<TMessage>(TMessage message) where TMessage : IBusQueueMessage
         {
