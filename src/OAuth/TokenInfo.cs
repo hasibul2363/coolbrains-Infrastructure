@@ -14,7 +14,7 @@ namespace CoolBrains.Infrastructure.OAuth
             get
             {
                 if (_refreshToken != null)
-                    return JsonConvert.SerializeObject(_refreshToken).Base64Encode();
+                    return _refreshToken.Id.ToString().Base64Encode();
                 return string.Empty;
             }
         }
