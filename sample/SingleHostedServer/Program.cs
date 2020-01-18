@@ -105,7 +105,7 @@ namespace SingleHostedServer
 
 
 
-                //var updateResponse = bus.Send(new UserUpdateCommand {Id = Guid.Parse("f5414aad-69b8-4a81-bebf-45d9dbbd71df"), UserName = "masud5"});
+                var updateResponse = bus.Send(new UserUpdateCommand {Id = Guid.Parse("bff5b1ee-5fec-4096-9e0d-7201b30eea66"), UserName = "masud5"});
 
 
                 Console.WriteLine("q to exit");

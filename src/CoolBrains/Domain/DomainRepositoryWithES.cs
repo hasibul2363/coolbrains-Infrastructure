@@ -35,7 +35,7 @@ namespace CoolBrains.Infrastructure.Domain
                 return default;
             }
 
-            var aggregate = Activator.CreateInstance<T>();
+            var aggregate = (T)Activator.CreateInstance(typeof(T), domainEvents.First().AggregateRootId);
             aggregate.LoadsFromHistory(domainEvents);
             return aggregate;
         }
@@ -49,7 +49,8 @@ namespace CoolBrains.Infrastructure.Domain
                 return default;
             }
 
-            var aggregate = Activator.CreateInstance<T>();
+            var aggregate = (T)Activator.CreateInstance(typeof(T), domainEvents.First().AggregateRootId);
+            
             aggregate.LoadsFromHistory(domainEvents);
             return aggregate;
         }

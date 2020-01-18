@@ -30,7 +30,9 @@ namespace CoolBrains.Infrastructure.Domain
         public void LoadsFromHistory(IEnumerable<IDomainEvent> events)
         {
             var domainEvents = events as IDomainEvent[] ?? events.ToArray();
-
+            if (domainEvents.Any())
+                Id = domainEvents.First().AggregateRootId;
+            
             foreach (var @event in domainEvents)
             {
                 ApplyEvent(@event);
