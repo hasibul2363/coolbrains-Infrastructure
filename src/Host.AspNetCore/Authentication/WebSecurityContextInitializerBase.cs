@@ -38,7 +38,6 @@ namespace CoolBrains.Infrastructure.Host.AspNetCore.Authentication
                 headers.Add(new KeyValuePair<string, IEnumerable<string>>(requestHeader.Key, requestHeader.Value.ToList()));
             requestInfo.Headers = headers;
 
-
             var authData = context.User.GetAuthData();
             userContext.UserId = authData.UserId;
             userContext.Audience = authData.Audience;
@@ -46,6 +45,12 @@ namespace CoolBrains.Infrastructure.Host.AspNetCore.Authentication
             userContext.Roles = authData.Roles;
             userContext.TenantId = authData.TenantId;
             userContext.TokenIssuer = authData.TokenIssuer;
+            
+            if (userContext.TenantId == Guid.Empty)
+            {
+                context.SetClientIdAndTenantIdToUserContext(userContext);
+            }
+
             
         }
         public static Uri GetUri(HttpRequest request)

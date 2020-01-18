@@ -19,7 +19,7 @@ namespace CoolBrains.Infrastructure.Session
         }
         public Guid UserId { get; set; }
         public Guid TenantId { get; set; }
-        public string[] Roles { get; set; }
+        public string[] Roles { get; set; } = new[] {"anonymous"};
         public Guid ClientId { get; set; }
         public string Audience { get; set; }
         public string TokenIssuer { get; set; }
@@ -34,5 +34,9 @@ namespace CoolBrains.Infrastructure.Session
             Audience = context.Audience;
             TokenIssuer = context.TokenIssuer;
         }
+
+        public bool IsAnonymous() => UserId == _anonymousUserId;
+
+
     }
 }
