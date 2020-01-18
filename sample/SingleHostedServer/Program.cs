@@ -41,11 +41,16 @@ namespace SingleHostedServer
             IServiceCollection services = new ServiceCollection();
             services.AddMassTransit();
 
-            services.AddScoped<UserContext>(p=> new UserContext
+            services.AddScoped<UserContext>(p => new UserContext
             {
                 UserId = Guid.NewGuid(),
                 TenantId = Guid.Parse("97f1c1d9-4219-4fc3-adf4-19fdb9dd8846")
             });
+
+
+            services.AddScoped<UserContext>(p => new UserContext());
+
+
 
             services.AddTransient<ICommandHandler<CreateUserCommand>, CreateUserCommandHandler>();
             services.AddTransient<ICommandHandler<UserUpdateCommand>, UserUpdateCommandHandler>();
@@ -94,13 +99,13 @@ namespace SingleHostedServer
 
                 var response = bus.Send(command);
 
-                var query = new UserQuery{ SearchText = "ha"};
-                var users = bus.GetResult(query);
-                Console.WriteLine($"Query: Total user found {users.Count}");
+                //var query = new UserQuery{ SearchText = "ha"};
+                //var users = bus.GetResult(query);
+                //Console.WriteLine($"Query: Total user found {users.Count}");
 
 
 
-                var updateResponse = bus.Send(new UserUpdateCommand {Id = Guid.Parse("f5414aad-69b8-4a81-bebf-45d9dbbd71df"), UserName = "masud5"});
+                //var updateResponse = bus.Send(new UserUpdateCommand {Id = Guid.Parse("f5414aad-69b8-4a81-bebf-45d9dbbd71df"), UserName = "masud5"});
 
 
                 Console.WriteLine("q to exit");

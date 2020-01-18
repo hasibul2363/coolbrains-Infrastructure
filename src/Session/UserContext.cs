@@ -23,5 +23,16 @@ namespace CoolBrains.Infrastructure.Session
         public Guid ClientId { get; set; }
         public string Audience { get; set; }
         public string TokenIssuer { get; set; }
+
+
+        public void Set(UserContext context)
+        {
+            UserId = context.UserId;
+            TenantId = context.TenantId;
+            Roles = context.Roles;
+            ClientId = context.ClientId;
+            Audience = context.Audience;
+            TokenIssuer = context.TokenIssuer;
+        }
     }
 }
