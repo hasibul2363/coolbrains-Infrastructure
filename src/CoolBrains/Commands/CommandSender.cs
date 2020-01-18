@@ -89,7 +89,7 @@ namespace CoolBrains.Infrastructure.Commands
                 return null;
 
             if (response.Events == null)
-                return new CommandResponse(response.ValidationResult, response.ValidationResult);
+                return new CommandResponse(response.ValidationResult, response.Result);
 
             if (response.Events != null)
                 foreach (var @event in (IEnumerable<IDomainEvent>)response.Events)
