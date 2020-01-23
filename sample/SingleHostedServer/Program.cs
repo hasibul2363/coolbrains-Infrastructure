@@ -70,6 +70,7 @@ namespace SingleHostedServer
                 .Listen(
                     e =>
                     {
+                        e.Consumer<CreateUserCommandHandler>(_serviceProvider);
                         e.Consumer<UserCreatedEventHandler>(_serviceProvider);
                         //e.ConfigureConsumer<UserCreatedEventHandler>(_serviceProvider);
                     }

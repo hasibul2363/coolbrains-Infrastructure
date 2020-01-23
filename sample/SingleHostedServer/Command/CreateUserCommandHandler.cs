@@ -11,6 +11,7 @@ namespace SingleHostedServer.Command
     {
         public CommandResponseWithEvents Handle(CreateUserCommand command)
         {
+            Console.WriteLine("I am from CreateUserCommandHandler");
             var user = new User(command.UserName, command.Email, command.UserId);
             return new CommandResponseWithEvents
             {
