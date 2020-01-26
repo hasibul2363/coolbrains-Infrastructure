@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace CoolBrains.Infrastructure.Security
+namespace CoolBrains.Infrastructure.CommonTypes
 {
     public class RoleBasedSecurity
     {
