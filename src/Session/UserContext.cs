@@ -23,6 +23,8 @@ namespace CoolBrains.Infrastructure.Session
         public Guid ClientId { get; set; }
         public string Audience { get; set; }
         public string TokenIssuer { get; set; }
+        public string LanguageCode { get; set; }
+
 
 
         public void Set(UserContext context)
