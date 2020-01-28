@@ -3,5 +3,6 @@
     public interface IBusQueueMessage : IBusMessage
     {
         string QueueName { get; set; }
+        void SetQueueName();
     }
 }

@@ -26,6 +26,7 @@ namespace CoolBrains.Infrastructure.Extensions
             services.AddScoped<IQueueClient, DefaultQueueClient>();
             services.AddScoped<ITopicClient, DefaultTopicClient>();
             services.AddScoped<IDomainStore,DefaultDomainStore>();
+            services.AddScoped<IDomainEventProcessor, DomainEventProcessor>();
             services.AddScoped(typeof(IDomainRepository<>), typeof(DomainRepository<>));
             services.AddScoped<IBusMessageDispatcher, BusMessageDispatcher>();
             services.AddScoped<ICommandSender, CommandSender>();

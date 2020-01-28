@@ -25,6 +25,7 @@ namespace CoolBrains.Infrastructure.Bus.RabbitMQ
 
         public async Task SendAsync<TMessage>(TMessage message) where TMessage : IBusQueueMessage
         {
+            message.SetQueueName();
             _busControl = _busControl ?? BuildBus();
             var queueName = GetQueueName(message);
             var sendToUri = new Uri($"{_rabbitConfig.ConnectionString}/{queueName}");

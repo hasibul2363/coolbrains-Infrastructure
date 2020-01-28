@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using CoolBrains.Infrastructure.Bus.RabbitMQ;
 using CoolBrains.Infrastructure;
+using CoolBrains.Infrastructure.Bus;
 using CoolBrains.Infrastructure.Commands;
 using CoolBrains.Infrastructure.Events;
 using CoolBrains.Infrastructure.Extensions;
@@ -52,8 +53,10 @@ namespace SingleHostedServer
 
 
 
-            services.AddTransient<ICommandHandler<CreateUserCommand>, CreateUserCommandHandler>();
-            services.AddTransient<ICommandHandler<UserUpdateCommand>, UserUpdateCommandHandler>();
+            services.AddTransient<ICommandHandlerAsync<CreateUserCommand>, CreateUserCommandHandler>();
+            //services.AddTransient(typeof(ICommandHandlerAsync<>), typeof(CommandHandlerAsync<>));
+            services.AddScoped<ICommandHandlerAsync<CreateUserCommand>, CreateUserCommandHandler>();
+            services.AddScoped<CreateUserCommandHandler>();
             services.AddScoped<IQueryHandler<UserQuery, List<UserInfo>>, UserQueryHandler>();
             //services.AddTransient<IEventHandlerAsync<UserCreated>, UserCreatedEventHandler>();
             services.AddTransient<UserCreatedEventHandler>();
@@ -64,12 +67,13 @@ namespace SingleHostedServer
             var builder = services
                     .AddCoolBrains()
                 .AddMongoDbProvider(_configuration);
-            _serviceProvider = services.BuildServiceProvider();
+
 
             builder.AddRabbitMqProvider(_configuration)
                 .Listen(
                     e =>
                     {
+                        _serviceProvider = services.BuildServiceProvider();
                         e.Consumer<CreateUserCommandHandler>(_serviceProvider);
                         e.Consumer<UserCreatedEventHandler>(_serviceProvider);
                         //e.ConfigureConsumer<UserCreatedEventHandler>(_serviceProvider);
@@ -79,7 +83,7 @@ namespace SingleHostedServer
             services.Configure<DbConnectionDetails>(_configuration.GetSection("DbConnectionDetails"));
             _serviceProvider = services.BuildServiceProvider();
 
-            
+
         }
 
         static async Task Main(string[] args)
@@ -89,6 +93,8 @@ namespace SingleHostedServer
             //var asm = Assembly.Load("SingleHostedServer");
 
             var bus = _serviceProvider.GetService<IDispatcher>();
+
+
             while (true)
             {
                 var command = new CreateUserCommand
@@ -98,7 +104,8 @@ namespace SingleHostedServer
                     UserId = Guid.Parse("bff5b1ee-5fec-4096-9e0d-7201b30eea66")
                 };
 
-                var response = bus.Send(command);
+                //var response = await bus.SendAsync(command);
+                await bus.SendBusMessageAsync(command);
 
                 //var query = new UserQuery{ SearchText = "ha"};
                 //var users = bus.GetResult(query);
@@ -106,7 +113,7 @@ namespace SingleHostedServer
 
 
 
-                var updateResponse = bus.Send(new UserUpdateCommand {Id = Guid.Parse("bff5b1ee-5fec-4096-9e0d-7201b30eea66"), UserName = "masud5"});
+                //var updateResponse = bus.Send(new UserUpdateCommand {Id = Guid.Parse("bff5b1ee-5fec-4096-9e0d-7201b30eea66"), UserName = "masud5"});
 
 
                 Console.WriteLine("q to exit");
@@ -117,8 +124,8 @@ namespace SingleHostedServer
                     break;
                 }
             }
-            
-            
+
+
             Console.WriteLine("Hello World!");
         }
 

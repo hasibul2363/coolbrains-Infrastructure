@@ -10,6 +10,14 @@ namespace CoolBrains.Infrastructure.Commands
         public DateTime TimeStamp { get; set; } =  DateTime.UtcNow;
         public bool PublishEvent { get; set; } = true;
         public void SetUserContext(UserContext userContext) => UserContext = userContext;
-        public string QueueName { get; set; } = "CoolBrains.Infrastructure.Commands";
+        public string QueueName { get; set; }
+
+        public void SetQueueName()
+        {
+            if (string.IsNullOrEmpty(QueueName))
+            {
+                QueueName = this.GetType().Namespace;
+            }
+        }
     }
 }

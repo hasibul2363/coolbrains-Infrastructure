@@ -1,17 +1,19 @@
-﻿using System.Threading.Tasks;
-using CoolBrains.Infrastructure.Commands;
+﻿using CoolBrains.Infrastructure.Commands;
 using CoolBrains.Infrastructure.Events;
 using CoolBrains.Infrastructure.Session;
 using MassTransit;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Threading.Tasks;
 
 namespace CoolBrains.Infrastructure.Bus.RabbitMQ
 {
     public abstract class EventHandlerAsync<T> : IConsumer<T>, IEventHandlerAsync<T> where T : class, IEvent
     {
-        private readonly UserContext _userContext;
-        protected EventHandlerAsync(UserContext userContext)
+        private UserContext _userContext;
+        protected EventHandlerAsync(IServiceProvider serviceProvider)
         {
-            _userContext = userContext;
+            _userContext = serviceProvider.GetService<UserContext>();
         }
         public Task Consume(ConsumeContext<T> context)
         {
@@ -23,20 +25,8 @@ namespace CoolBrains.Infrastructure.Bus.RabbitMQ
     }
 
 
-    public abstract class CommandHandlerAsync<T> : IConsumer<T>, ICommandHandlerAsync<T> where T : class, ICommand
-    {
-        private readonly UserContext _userContext;
-        protected CommandHandlerAsync(UserContext userContext)
-        {
-            _userContext = userContext;
-        }
-        public async Task Consume(ConsumeContext<T> context)
-        {
-            _userContext.Set(context.Message.UserContext);
-            var response = await HandleAsync(context.Message);
-        }
-
-        public abstract Task<CommandResponseWithEvents> HandleAsync(T command);
-
-    }
+    //public abstract class CommandHandlerAsync<T> : IConsumer<T>, ICommandHandlerAsync<T> where T : class, ICommand
+    //{
+        
+    //}
 }

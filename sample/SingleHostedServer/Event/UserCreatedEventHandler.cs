@@ -14,7 +14,7 @@ namespace SingleHostedServer.Event
         private readonly IRepository _repository;
 
         private UserContext _userContext;
-        public UserCreatedEventHandler(IRepository repository, UserContext userContext):base(userContext)
+        public UserCreatedEventHandler(IRepository repository, UserContext userContext, IServiceProvider serviceProvider):base(serviceProvider)
         {
             _userContext = userContext;
             _repository = repository;

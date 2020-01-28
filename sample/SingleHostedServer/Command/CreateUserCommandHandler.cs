@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using CoolBrains.Infrastructure.Bus.RabbitMQ;
 using CoolBrains.Infrastructure.Commands;
 using SingleHostedServer.Domain;
 
 namespace SingleHostedServer.Command
 {
-    public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand>
+    public class CreateUserCommandHandler : CommandHandlerAsync<CreateUserCommand>
     {
-        public CommandResponseWithEvents Handle(CreateUserCommand command)
+       
+        public override async Task<CommandResponseWithEvents> HandleAsync(CreateUserCommand command)
         {
             Console.WriteLine("I am from CreateUserCommandHandler");
             var user = new User(command.UserName, command.Email, command.UserId);
@@ -19,5 +21,8 @@ namespace SingleHostedServer.Command
             };
         }
 
+        public CreateUserCommandHandler(IServiceProvider serviceProvider) : base(serviceProvider)
+        {
+        }
     }
 }
