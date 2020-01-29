@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using CoolBrains.Infrastructure.Bus.RabbitMQ;
+using CoolBrains.Infrastructure.Bus;//.RabbitMQ;
 using CoolBrains.Infrastructure.Commands;
 using SingleHostedServer.Domain;
 

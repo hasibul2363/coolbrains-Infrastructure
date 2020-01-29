@@ -4,12 +4,13 @@ using CoolBrains.Infrastructure.Session;
 
 namespace CoolBrains.Infrastructure.Events
 {
-    public class Event : IEvent,IBusTopicMessage
+    public class InMemoryEvent : Message, IEvent
     {
-        public UserContext UserContext { get; private set; }
         public string Source { get; set; }
-        public DateTime TimeStamp { get; set; }
-        public void SetUserContext(UserContext userContext) => UserContext = userContext;
-        public string TopicName { get; set; }
+    }
+
+    public class Event : BusTopicMessage, IEvent
+    {
+        public string Source { get; set; }
     }
 }

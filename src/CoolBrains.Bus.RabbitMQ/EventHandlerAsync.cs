@@ -10,7 +10,7 @@ namespace CoolBrains.Infrastructure.Bus.RabbitMQ
 {
     public abstract class EventHandlerAsync<T> : IConsumer<T>, IEventHandlerAsync<T> where T : class, IEvent
     {
-        private UserContext _userContext;
+        private readonly UserContext _userContext;
         protected EventHandlerAsync(IServiceProvider serviceProvider)
         {
             _userContext = serviceProvider.GetService<UserContext>();
@@ -23,10 +23,4 @@ namespace CoolBrains.Infrastructure.Bus.RabbitMQ
 
         public abstract Task HandleAsync(T @event);
     }
-
-
-    //public abstract class CommandHandlerAsync<T> : IConsumer<T>, ICommandHandlerAsync<T> where T : class, ICommand
-    //{
-        
-    //}
 }

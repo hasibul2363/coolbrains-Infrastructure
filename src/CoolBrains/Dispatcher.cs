@@ -28,13 +28,13 @@ namespace CoolBrains.Infrastructure
             _userContext = userContext;
         }
 
-        public Task SendBusMessageAsync<TMessage>(TMessage message) where TMessage : IBusMessage
+        public Task SendBusMessageAsync<TMessage>(TMessage message) where TMessage : IMessage
         {
             SetUserContextWithMessage(message);
             return _busMessageDispatcher.DispatchAsync(message);
         }
 
-        public Task PublishBusMessageAsync<TMessage>(TMessage message) where TMessage : IBusMessage
+        public Task PublishBusMessageAsync<TMessage>(TMessage message) where TMessage : IMessage
         {
             SetUserContextWithMessage(message);
             return _busMessageDispatcher.DispatchAsync(message);

@@ -4,20 +4,13 @@ using CoolBrains.Infrastructure.Session;
 
 namespace CoolBrains.Infrastructure.Commands
 {
-    public abstract class Command : ICommand,IBusQueueMessage
+    public abstract class InMemoryCommand : Message, ICommand
     {
-        public UserContext UserContext { get; private set; }
-        public DateTime TimeStamp { get; set; } =  DateTime.UtcNow;
         public bool PublishEvent { get; set; } = true;
-        public void SetUserContext(UserContext userContext) => UserContext = userContext;
-        public string QueueName { get; set; }
+    }
 
-        public void SetQueueName()
-        {
-            if (string.IsNullOrEmpty(QueueName))
-            {
-                QueueName = this.GetType().Namespace;
-            }
-        }
+    public abstract class Command : BusQueueMessage, ICommand
+    {
+        public bool PublishEvent { get; set; } = true;
     }
 }

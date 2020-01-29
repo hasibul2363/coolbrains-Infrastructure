@@ -5,10 +5,9 @@ using CoolBrains.Infrastructure.Events;
 
 namespace SingleHostedServer.Event
 {
-    public class UserCreated : DomainEvent, IEvent, IBusTopicMessage
+    public class UserCreated : DomainEvent
     {
         public string UserName { get; set; }
         public string Email { get; set; }
-        public string TopicName { get; set; }
     }
 }

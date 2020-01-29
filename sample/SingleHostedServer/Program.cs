@@ -74,7 +74,7 @@ namespace SingleHostedServer
                     e =>
                     {
                         _serviceProvider = services.BuildServiceProvider();
-                        e.Consumer<CreateUserCommandHandler>(_serviceProvider);
+                        //e.Consumer<CreateUserCommandHandler>(_serviceProvider);
                         e.Consumer<UserCreatedEventHandler>(_serviceProvider);
                         //e.ConfigureConsumer<UserCreatedEventHandler>(_serviceProvider);
                     }
@@ -104,8 +104,8 @@ namespace SingleHostedServer
                     UserId = Guid.Parse("bff5b1ee-5fec-4096-9e0d-7201b30eea66")
                 };
 
-                //var response = await bus.SendAsync(command);
-                await bus.SendBusMessageAsync(command);
+                var response = await bus.SendAsync(command);
+                //await bus.SendBusMessageAsync(command);
 
                 //var query = new UserQuery{ SearchText = "ha"};
                 //var users = bus.GetResult(query);
