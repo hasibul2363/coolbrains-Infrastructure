@@ -1,13 +1,16 @@
 ﻿using System;
+using CoolBrains.Infrastructure.Bus;
 using CoolBrains.Infrastructure.Session;
 
 namespace CoolBrains.Infrastructure.Events
 {
-    public class Event : IEvent
+    public class InMemoryEvent : Message, IEvent
     {
-        public UserContext UserContext { get; private set; }
         public string Source { get; set; }
-        public DateTime TimeStamp { get; set; }
-        public void SetUserContext(UserContext userContext) => UserContext = userContext;
+    }
+
+    public class Event : BusTopicMessage, IEvent
+    {
+        public string Source { get; set; }
     }
 }

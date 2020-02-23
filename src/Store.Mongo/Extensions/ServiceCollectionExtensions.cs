@@ -33,7 +33,7 @@ namespace CoolBrains.Infrastructure.Store.Mongo.Extensions
 
             //builder.Services.AddScoped<IRepository, ClassicMongoRepository>();
 
-            builder.Services.AddSingleton<TenantSpecificDbConnectionBuilder>();
+            builder.Services.AddScoped<TenantSpecificDbConnectionBuilder>();
             builder.Services.AddScoped<IRepository, TenantSpecificMongoRepository>();
             builder.Services.AddScoped<IDomainStore, DomainStore>();
 

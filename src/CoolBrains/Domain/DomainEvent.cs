@@ -3,13 +3,27 @@ using CoolBrains.Infrastructure.Events;
 
 namespace CoolBrains.Infrastructure.Domain
 {
-    public class DomainEvent: Event, IDomainEvent
+    public abstract class InMemoryDomainEvent : InMemoryEvent, IDomainEvent
     {
-        public DomainEvent()
+        protected InMemoryDomainEvent()
         {
             Id = Guid.NewGuid();
         }
-        public DomainEvent(Guid id)
+        private InMemoryDomainEvent(Guid id)
+        {
+            Id = id;
+        }
+        public Guid Id { get; set; }
+        public Guid AggregateRootId { get; set; }
+    }
+
+    public abstract class DomainEvent : Event, IDomainEvent
+    {
+        protected DomainEvent()
+        {
+            Id = Guid.NewGuid();
+        }
+        private DomainEvent(Guid id)
         {
             Id = id;
         }

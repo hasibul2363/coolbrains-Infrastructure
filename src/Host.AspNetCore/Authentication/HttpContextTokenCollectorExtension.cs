@@ -1,4 +1,5 @@
 ﻿using System;
+using CoolBrains.Infrastructure.Session;
 using Microsoft.AspNetCore.Http;
 
 namespace CoolBrains.Infrastructure.Host.AspNetCore.Authentication
@@ -6,6 +7,9 @@ namespace CoolBrains.Infrastructure.Host.AspNetCore.Authentication
     public static class Keys
     {
         public static string Authorization = "Authorization";
+        public static string ClientId = "c-clientId";
+        public static string TenantId = "c-tenantId";
+        public static string LanguageCode = "c-languageCode";
     }
 
     public static class HttpContextTokenCollectorExtension
@@ -17,26 +21,32 @@ namespace CoolBrains.Infrastructure.Host.AspNetCore.Authentication
             if (string.IsNullOrEmpty(token))
                 token = context.Request.Headers[Keys.Authorization];
 
-            //TODO
-            /*
-            if (string.IsNullOrEmpty(token) && context.Request.Cookies != null)
-            {
-                var currentRequestOrigin = context.Request.Headers[Keys.Origin].ToString();
-                if (string.IsNullOrWhiteSpace(currentRequestOrigin))
-                    currentRequestOrigin = context.Request.Headers[Keys.Referer].ToString();
-
-                if (!string.IsNullOrEmpty(currentRequestOrigin) && Uri.TryCreate(currentRequestOrigin, UriKind.Absolute, out var incomingUri))
-                {
-                    var siteSpecificTokenKey = incomingUri.Host;
-                    token = (context.Request.Cookies.ContainsKey(siteSpecificTokenKey) && !string.IsNullOrWhiteSpace(context.Request.Cookies[siteSpecificTokenKey])) ? context.Request.Cookies[siteSpecificTokenKey] : string.Empty;
-                }
-
-                if (string.IsNullOrEmpty(token))
-                    token = (context.Request.Cookies.ContainsKey(Keys.AccessToken) && !string.IsNullOrWhiteSpace(context.Request.Cookies[Keys.AccessToken])) ? context.Request.Cookies[Keys.AccessToken] : string.Empty;
-            }
-            */
-
             return token;
+        }
+
+        public static void SetClientIdAndTenantIdToUserContext(this HttpContext context, UserContext userContext)
+        {
+            string clientId = context.Request.Query[Keys.ClientId].ToString();
+            string tenantId = context.Request.Query[Keys.TenantId].ToString();
+            string languageCode = context.Request.Query[Keys.LanguageCode].ToString();
+
+            if (string.IsNullOrEmpty(tenantId))
+            {
+                clientId = context.Request.Headers[Keys.ClientId];
+                tenantId = context.Request.Headers[Keys.TenantId];
+            }
+
+            if (string.IsNullOrEmpty(languageCode))
+                languageCode = context.Request.Headers[Keys.LanguageCode];
+            
+            if (!string.IsNullOrEmpty(clientId))
+                userContext.ClientId = Guid.Parse(clientId); 
+            
+            if (!string.IsNullOrEmpty(tenantId))
+                userContext.TenantId = Guid.Parse(tenantId);
+
+            if (!string.IsNullOrEmpty(languageCode))
+                userContext.LanguageCode = languageCode;
         }
     }
 }

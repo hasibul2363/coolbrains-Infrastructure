@@ -1,6 +1,6 @@
 ﻿namespace CoolBrains.Infrastructure.Bus
 {
-    public interface IBusTopicMessage : IBusMessage
+    public interface IBusTopicMessage : IMessage
     {
         string TopicName { get; set; }
     }

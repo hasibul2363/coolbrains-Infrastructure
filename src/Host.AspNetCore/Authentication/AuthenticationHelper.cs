@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+using CoolBrains.Infrastructure.Bus;
+using CoolBrains.Infrastructure.Extensions;
 using CoolBrains.Infrastructure.OAuth;
+using CoolBrains.Infrastructure.Session;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,11 +14,12 @@ namespace CoolBrains.Infrastructure.Host.AspNetCore.Authentication
 {
     public static class AuthenticationHelper
     {
-        private static TokenConfig _tokenConfig;
-        public static void AddJwtBearerAuthentication(this IServiceCollection serviceCollection, IConfiguration configuration, Action<JwtBearerOptions> configureOptions = null, JwtBearerEvents bearerEvents = null)
+        private static void AddJwtBearerAuthentication(this IServiceCollection serviceCollection, IConfiguration configuration, Action<JwtBearerOptions> configureOptions = null, JwtBearerEvents bearerEvents = null)
         {
-            configuration.GetSection("TokenConfig").Bind(_tokenConfig);
-            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_tokenConfig.TokenSigningKey));
+            var tokenConfig = new TokenConfig();
+            configuration.GetSection("TokenConfig").Bind(tokenConfig);
+            
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(tokenConfig.TokenSigningKey));
             if (configureOptions == null)
             {
                 configureOptions = options =>
@@ -27,8 +31,8 @@ namespace CoolBrains.Infrastructure.Host.AspNetCore.Authentication
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuers = _tokenConfig.TokenIssuers,
-                        IssuerSigningKeys = new[] { signingKey }
+                        ValidIssuers = tokenConfig.TokenIssuers,
+                        IssuerSigningKey = signingKey
                     };
 
                     if (bearerEvents != null)
@@ -44,7 +48,15 @@ namespace CoolBrains.Infrastructure.Host.AspNetCore.Authentication
 
             serviceCollection.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(configureOptions);
         }
-
+        public static ICoolBrainsServiceBuilder AddAuth(this ICoolBrainsServiceBuilder builder, IConfiguration configuration, Action<JwtBearerOptions> configureOptions = null, JwtBearerEvents bearerEvents = null)
+        {
+            builder.Services.AddScoped<UserContext>();
+            builder.Services.AddScoped<RequestInfo>();
+            builder.Services.AddTransient<IOauthAccessTokenGenerator, OauthAccessTokenGenerator>();
+            builder.Services.Configure<TokenConfig>(configuration.GetSection("TokenConfig"));
+            builder.Services.AddJwtBearerAuthentication(configuration);
+            return builder;
+        }
 
         private static Task TokenValidated(TokenValidatedContext tokenValidatedContext)
         {

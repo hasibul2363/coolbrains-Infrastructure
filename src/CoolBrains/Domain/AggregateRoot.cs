@@ -30,7 +30,9 @@ namespace CoolBrains.Infrastructure.Domain
         public void LoadsFromHistory(IEnumerable<IDomainEvent> events)
         {
             var domainEvents = events as IDomainEvent[] ?? events.ToArray();
-
+            if (domainEvents.Any())
+                Id = domainEvents.First().AggregateRootId;
+            
             foreach (var @event in domainEvents)
             {
                 ApplyEvent(@event);
@@ -50,7 +52,7 @@ namespace CoolBrains.Infrastructure.Domain
 
         protected void AddAndApplyEvent<T>(IDomainEvent @event) where T: IAggregateRoot
         {
-            @event.AggregateRootId = this.Id;
+            //@event.AggregateRootId = this.Id;
             @event.Source = typeof(T).FullName;
             @event.TimeStamp = DateTime.UtcNow;
             AddEvent(@event);

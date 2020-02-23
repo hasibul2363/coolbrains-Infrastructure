@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using CoolBrains.Infrastructure.Security;
+﻿using CoolBrains.Infrastructure.Security;
 using CoolBrains.Infrastructure.Session;
 using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CoolBrains.Infrastructure.Host.AspNetCore.Authentication
 {
@@ -38,8 +36,14 @@ namespace CoolBrains.Infrastructure.Host.AspNetCore.Authentication
                 headers.Add(new KeyValuePair<string, IEnumerable<string>>(requestHeader.Key, requestHeader.Value.ToList()));
             requestInfo.Headers = headers;
 
-
-            userContext = context.User.GetAuthData();
+            var authData = context.User.GetAuthData();
+            userContext.UserId = authData.UserId;
+            userContext.Audience = authData.Audience;
+            userContext.ClientId = authData.ClientId;
+            userContext.Roles = authData.Roles;
+            userContext.TenantId = authData.TenantId;
+            userContext.TokenIssuer = authData.TokenIssuer;
+            context.SetClientIdAndTenantIdToUserContext(userContext);
         }
         public static Uri GetUri(HttpRequest request)
         {

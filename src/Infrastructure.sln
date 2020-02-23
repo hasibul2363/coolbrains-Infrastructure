@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonTypes", "CommonTypes\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuth", "OAuth\OAuth.csproj", "{E13CEA54-B1B6-4FAB-925F-0613C1C9F427}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Host.AspNetCore", "Host.AspNetCore\Host.AspNetCore.csproj", "{D02C545C-2870-4DD3-88CC-4A892B4431F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Host.AspNetCore", "Host.AspNetCore\Host.AspNetCore.csproj", "{D02C545C-2870-4DD3-88CC-4A892B4431F1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuthTest", "..\sample\OAuthTest\OAuthTest.csproj", "{07C03E2E-CE00-4ECE-9642-BB97BC94B584}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,10 @@ Global
 		{D02C545C-2870-4DD3-88CC-4A892B4431F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D02C545C-2870-4DD3-88CC-4A892B4431F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D02C545C-2870-4DD3-88CC-4A892B4431F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07C03E2E-CE00-4ECE-9642-BB97BC94B584}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07C03E2E-CE00-4ECE-9642-BB97BC94B584}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07C03E2E-CE00-4ECE-9642-BB97BC94B584}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07C03E2E-CE00-4ECE-9642-BB97BC94B584}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{C13E701B-E7C5-45AA-B218-9115EB2FB9B3} = {48818163-39C8-4292-84AA-84B8FC998A64}
 		{89C301B0-E269-4693-B826-BC9F0AE812E3} = {48818163-39C8-4292-84AA-84B8FC998A64}
 		{13B7BDBE-2C7D-477E-AF7E-E1918B3682A6} = {66684763-8519-44F1-ABA6-6E9BAB4111E0}
+		{07C03E2E-CE00-4ECE-9642-BB97BC94B584} = {66684763-8519-44F1-ABA6-6E9BAB4111E0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {215058AF-7F3A-476E-9215-4E765FEE680B}

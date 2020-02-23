@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using CoolBrains.Infrastructure.Bus.RabbitMQ;
 using CoolBrains.Infrastructure;
+using CoolBrains.Infrastructure.Bus;
 using CoolBrains.Infrastructure.Commands;
 using CoolBrains.Infrastructure.Events;
 using CoolBrains.Infrastructure.Extensions;
@@ -41,13 +42,21 @@ namespace SingleHostedServer
             IServiceCollection services = new ServiceCollection();
             services.AddMassTransit();
 
-            services.AddSingleton<UserContext>(new UserContext
+            services.AddScoped<UserContext>(p => new UserContext
             {
-                UserId = Guid.NewGuid(), TenantId = Guid.Parse("97f1c1d9-4219-4fc3-adf4-19fdb9dd8846")
+                UserId = Guid.NewGuid(),
+                TenantId = Guid.Parse("97f1c1d9-4219-4fc3-adf4-19fdb9dd8846")
             });
 
-            services.AddTransient<ICommandHandler<CreateUserCommand>, CreateUserCommandHandler>();
-            services.AddTransient<ICommandHandler<UserUpdateCommand>, UserUpdateCommandHandler>();
+
+            services.AddScoped<UserContext>(p => new UserContext());
+
+
+
+            services.AddTransient<ICommandHandlerAsync<CreateUserCommand>, CreateUserCommandHandler>();
+            //services.AddTransient(typeof(ICommandHandlerAsync<>), typeof(CommandHandlerAsync<>));
+            services.AddScoped<ICommandHandlerAsync<CreateUserCommand>, CreateUserCommandHandler>();
+            services.AddScoped<CreateUserCommandHandler>();
             services.AddScoped<IQueryHandler<UserQuery, List<UserInfo>>, UserQueryHandler>();
             //services.AddTransient<IEventHandlerAsync<UserCreated>, UserCreatedEventHandler>();
             services.AddTransient<UserCreatedEventHandler>();
@@ -58,12 +67,14 @@ namespace SingleHostedServer
             var builder = services
                     .AddCoolBrains()
                 .AddMongoDbProvider(_configuration);
-            _serviceProvider = services.BuildServiceProvider();
+
 
             builder.AddRabbitMqProvider(_configuration)
                 .Listen(
                     e =>
                     {
+                        _serviceProvider = services.BuildServiceProvider();
+                        //e.Consumer<CreateUserCommandHandler>(_serviceProvider);
                         e.Consumer<UserCreatedEventHandler>(_serviceProvider);
                         //e.ConfigureConsumer<UserCreatedEventHandler>(_serviceProvider);
                     }
@@ -72,7 +83,7 @@ namespace SingleHostedServer
             services.Configure<DbConnectionDetails>(_configuration.GetSection("DbConnectionDetails"));
             _serviceProvider = services.BuildServiceProvider();
 
-            
+
         }
 
         static async Task Main(string[] args)
@@ -82,24 +93,27 @@ namespace SingleHostedServer
             //var asm = Assembly.Load("SingleHostedServer");
 
             var bus = _serviceProvider.GetService<IDispatcher>();
+
+
             while (true)
             {
                 var command = new CreateUserCommand
                 {
-                    Email = "hasibul2363@gmail.com",
-                    UserName = "hasibul2363",
-                    UserId = Guid.Parse("f5414aad-69b8-4a81-bebf-45d9dbbd71df")
+                    Email = "hasibul236355@gmail.com",
+                    UserName = "hasibul236355",
+                    UserId = Guid.Parse("bff5b1ee-5fec-4096-9e0d-7201b30eea66")
                 };
 
-                //var response = bus.Send(command);
+                var response = await bus.SendAsync(command);
+                //await bus.SendBusMessageAsync(command);
 
-                var query = new UserQuery{ SearchText = "ha"};
-                var users = bus.GetResult(query);
-                Console.WriteLine($"Query: Total user found {users.Count}");
+                //var query = new UserQuery{ SearchText = "ha"};
+                //var users = bus.GetResult(query);
+                //Console.WriteLine($"Query: Total user found {users.Count}");
 
 
 
-                var updateResponse = bus.Send(new UserUpdateCommand {Id = Guid.Parse("f5414aad-69b8-4a81-bebf-45d9dbbd71df"), UserName = "masud5"});
+                //var updateResponse = bus.Send(new UserUpdateCommand {Id = Guid.Parse("bff5b1ee-5fec-4096-9e0d-7201b30eea66"), UserName = "masud5"});
 
 
                 Console.WriteLine("q to exit");
@@ -110,8 +124,8 @@ namespace SingleHostedServer
                     break;
                 }
             }
-            
-            
+
+
             Console.WriteLine("Hello World!");
         }
 

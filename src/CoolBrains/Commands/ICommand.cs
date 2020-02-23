@@ -1,11 +1,11 @@
 ﻿using System;
+using CoolBrains.Infrastructure.Bus;
 using CoolBrains.Infrastructure.Session;
 
 namespace CoolBrains.Infrastructure.Commands
 {
-    public interface ICommand: ISecurityInfo
+    public interface ICommand : IMessage
     {
-        DateTime TimeStamp { get; set; }
         bool PublishEvent { get; set; }
     }
 }

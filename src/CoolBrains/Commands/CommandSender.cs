@@ -11,27 +11,26 @@ namespace CoolBrains.Infrastructure.Commands
 {
     public class CommandSender : ICommandSender
     {
-        private readonly IDomainStore _domainStore;
+
+        private readonly IDomainEventProcessor _eventProcessor;
         private readonly IHandlerResolver _handlerResolver;
         private UserContext _userContext;
-        private readonly IEventPublisher _eventPublisher;
-        public CommandSender(IHandlerResolver handlerResolver, UserContext userContext, IDomainStore domainStore, IEventPublisher eventPublisher)
+        public CommandSender(IHandlerResolver handlerResolver, UserContext userContext, IDomainEventProcessor eventProcessor)
         {
             _handlerResolver = handlerResolver;
             _userContext = userContext;
-            _domainStore = domainStore;
-            _eventPublisher = eventPublisher;
+            _eventProcessor = eventProcessor;
         }
 
-      
+
 
         public async Task<CommandResponse> SendAsync(ICommand command)
         {
             if (command == null)
                 throw new ArgumentNullException(nameof(command));
-            
+
             _userContext = command.UserContext;
-            
+
             var handler = _handlerResolver.ResolveHandler(command, typeof(ICommandHandlerAsync<>));
             var handleMethod = handler.GetType().GetMethod("HandleAsync", new[] { command.GetType() });
             var response = await (Task<CommandResponseWithEvents>)handleMethod.Invoke(handler, new object[] { command });
@@ -42,32 +41,12 @@ namespace CoolBrains.Infrastructure.Commands
             if (response.Events == null)
                 return new CommandResponse(response.ValidationResult, response.ValidationResult);
 
-            if (response.Events != null)
-                foreach (var @event in (IEnumerable<IDomainEvent>)response.Events)
-                {
-                    if (@event.UserContext == null)
-                        @event.SetUserContext(_userContext);
-                }
-
-            
-            var events = (IEnumerable<IDomainEvent>) response.Events;
-            var aggregateDetail = events.First();
-
-            await _domainStore.SaveAsync(aggregateDetail.AggregateRootId, events);
-
-            if (command.PublishEvent)
-            {
-                foreach (var @event in response.Events)
-                {
-                    await _eventPublisher.PublishAsync(@event);
-                }
-                    
-            }
+            await _eventProcessor.Process(response.Events, command);
 
             return new CommandResponse(response.ValidationResult, response.ValidationResult);
         }
 
-      
+
 
         public CommandResponse Send(ICommand command)
         {
@@ -89,26 +68,9 @@ namespace CoolBrains.Infrastructure.Commands
                 return null;
 
             if (response.Events == null)
-                return new CommandResponse(response.ValidationResult, response.ValidationResult);
+                return new CommandResponse(response.ValidationResult, response.Result);
 
-            if (response.Events != null)
-                foreach (var @event in (IEnumerable<IDomainEvent>)response.Events)
-                {
-                    if (@event.UserContext == null)
-                        @event.SetUserContext(_userContext);
-                }
-
-
-            var events = (IEnumerable<IDomainEvent>)response.Events;
-            var aggregateDetail = events.First();
-
-            _domainStore.Save(aggregateDetail.AggregateRootId, events);
-
-            if (command.PublishEvent)
-            {
-                foreach (var @event in response.Events)
-                    _eventPublisher.PublishAsync(@event).GetAwaiter().GetResult();
-            }
+            _eventProcessor.Process(response.Events, command).GetAwaiter().GetResult();
 
             return new CommandResponse(response.ValidationResult, response.ValidationResult);
         }
