@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using CoolBrains.Infrastructure.Security;
+﻿using CoolBrains.Infrastructure.Security;
 using CoolBrains.Infrastructure.Session;
 using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CoolBrains.Infrastructure.Host.AspNetCore.Authentication
 {
@@ -45,13 +43,7 @@ namespace CoolBrains.Infrastructure.Host.AspNetCore.Authentication
             userContext.Roles = authData.Roles;
             userContext.TenantId = authData.TenantId;
             userContext.TokenIssuer = authData.TokenIssuer;
-            
-            if (userContext.TenantId == Guid.Empty)
-            {
-                context.SetClientIdAndTenantIdToUserContext(userContext);
-            }
-
-            
+            context.SetClientIdAndTenantIdToUserContext(userContext);
         }
         public static Uri GetUri(HttpRequest request)
         {

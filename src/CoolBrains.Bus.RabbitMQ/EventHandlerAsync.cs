@@ -1,16 +1,19 @@
-﻿using System.Threading.Tasks;
+﻿using CoolBrains.Infrastructure.Commands;
 using CoolBrains.Infrastructure.Events;
 using CoolBrains.Infrastructure.Session;
 using MassTransit;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Threading.Tasks;
 
 namespace CoolBrains.Infrastructure.Bus.RabbitMQ
 {
     public abstract class EventHandlerAsync<T> : IConsumer<T>, IEventHandlerAsync<T> where T : class, IEvent
     {
         private readonly UserContext _userContext;
-        protected EventHandlerAsync(UserContext userContext)
+        protected EventHandlerAsync(IServiceProvider serviceProvider)
         {
-            _userContext = userContext;
+            _userContext = serviceProvider.GetService<UserContext>();
         }
         public Task Consume(ConsumeContext<T> context)
         {

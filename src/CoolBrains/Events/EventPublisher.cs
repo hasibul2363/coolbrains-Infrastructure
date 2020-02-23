@@ -31,12 +31,12 @@ namespace CoolBrains.Infrastructure.Events
 
             //TODO there is a probability to have multiple handlers
             var handler = _handlerResolver.ResolveHandler(@event, typeof(IEventHandlerAsync<>));
-
-            //foreach (var handler in handlers)
+            
+            //TODO inmemory handler is not triggering
             if (handler != null)
                 await handler.AsDynamic().HandleAsync(@event);
 
-            if (@event is IBusMessage message)
+            if (@event is IBusTopicMessage message)
                 await _busMessageDispatcher.DispatchAsync(message);
         }
 

@@ -14,7 +14,7 @@ namespace CoolBrains.Infrastructure.Bus
             _topicClient = topicClient;
         }
 
-        public Task DispatchAsync<TMessage>(TMessage message) where TMessage : IBusMessage
+        public Task DispatchAsync<TMessage>(TMessage message) where TMessage : IMessage
         {
             if (message is IBusQueueMessage && message is IBusTopicMessage)
                 throw new NotSupportedException("The message cannot implement both the IBusQueueMessage and the IBusTopicMessage interfaces");

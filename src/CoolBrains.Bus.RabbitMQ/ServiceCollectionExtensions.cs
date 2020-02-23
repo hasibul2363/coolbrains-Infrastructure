@@ -17,7 +17,8 @@ namespace CoolBrains.Infrastructure.Bus.RabbitMQ
             builder.Services.AddMassTransit();
             builder.Services.Configure<RabbitConfig>(configuration.GetSection("RabbitConfig"))
                 .AddScoped<IBusMessageDispatcher, BusMessageDispatcher>()
-                .AddScoped<ITopicClient, TopicClient>();
+                .AddScoped<ITopicClient, TopicClient>()
+                .AddScoped<IQueueClient, QueueClient>();
 
             return builder;
         }

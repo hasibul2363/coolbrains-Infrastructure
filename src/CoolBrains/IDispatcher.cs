@@ -16,7 +16,7 @@ namespace CoolBrains.Infrastructure
         CommandResponse Send(ICommand command);
         Task<CommandResponse> SendAsync(ICommand command);
 
-        Task SendBusMessageAsync<TMessage>(TMessage message) where TMessage : IBusMessage;
-        Task PublishBusMessageAsync<TMessage>(TMessage message) where TMessage : IBusMessage;
+        Task SendBusMessageAsync<TMessage>(TMessage message) where TMessage : IMessage;
+        Task PublishBusMessageAsync<TMessage>(TMessage message) where TMessage : IMessage;
     }
 }

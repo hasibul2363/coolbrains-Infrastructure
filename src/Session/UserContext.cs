@@ -7,6 +7,7 @@ namespace CoolBrains.Infrastructure.Session
     public class UserContext
     {
         private readonly Guid _anonymousUserId = Guid.Parse("20c69484-b359-4a48-9155-d877198d5db4");
+
         public UserContext()
         {
             UserId = _anonymousUserId;
@@ -35,6 +36,7 @@ namespace CoolBrains.Infrastructure.Session
             ClientId = context.ClientId;
             Audience = context.Audience;
             TokenIssuer = context.TokenIssuer;
+            LanguageCode = context.LanguageCode;
         }
 
         public bool IsAnonymous() => UserId == _anonymousUserId;
