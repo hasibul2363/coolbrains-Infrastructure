@@ -42,6 +42,8 @@ namespace CoolBrains.Infrastructure.CommonTypes
     {
         public static void ApplyPermission(this RoleBasedSecurity roleBasedSecurity, List<Guid> ids, List<ActionItemEnum> actionItems)
         {
+            if (ids == null)
+                return;
             actionItems.ForEach(action =>
             {
                 switch (action)
@@ -74,10 +76,10 @@ namespace CoolBrains.Infrastructure.CommonTypes
                 }
             });
         }
-
-
         public static void ApplyPermission(this RoleBasedSecurity roleBasedSecurity, List<string> roles, List<ActionItemEnum> actionItems)
         {
+            if (roles == null)
+                return;
             actionItems.ForEach(action =>
             {
                 switch (action)
@@ -107,6 +109,63 @@ namespace CoolBrains.Infrastructure.CommonTypes
                         if (changedRoles.Any())
                             roleBasedSecurity.RolesAllowedToShare.AddRange(changedRoles);
                         break;
+                }
+            });
+        }
+        public static void RevokePermission(this RoleBasedSecurity roleBasedSecurity, List<Guid> ids, List<ActionItemEnum> actionItems)
+        {
+            actionItems.ForEach(action =>
+            {
+                if (ids == null)
+                    return;
+                switch (action)
+                {
+                    case ActionItemEnum.Create:
+                        roleBasedSecurity.IdsAllowedToCreate.RemoveAll(ids.Contains);
+                        break;
+                    case ActionItemEnum.Read:
+                        roleBasedSecurity.IdsAllowedToRead.RemoveAll(ids.Contains);
+                        break;
+                    case ActionItemEnum.Update:
+                        roleBasedSecurity.IdsAllowedToUpdate.RemoveAll(ids.Contains);
+                        break;
+                    case ActionItemEnum.Delete:
+                        roleBasedSecurity.IdsAllowedToDelete.RemoveAll(ids.Contains);
+                        break;
+                    case ActionItemEnum.Share:
+                        roleBasedSecurity.IdsAllowedToShare.RemoveAll(ids.Contains);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(action), action, null);
+                }
+            });
+        }
+        public static void RevokePermission(this RoleBasedSecurity roleBasedSecurity, List<string> roles, List<ActionItemEnum> actionItems)
+        {
+            if (roles == null) return;
+
+            actionItems.ForEach(action =>
+            {
+                switch (action)
+                {
+                    case ActionItemEnum.Create:
+
+                        roleBasedSecurity.RolesAllowedToCreate.RemoveAll(roles.Contains);
+                        break;
+                    case ActionItemEnum.Read:
+                        roleBasedSecurity.RolesAllowedToRead.RemoveAll(roles.Contains);
+                        break;
+                    case ActionItemEnum.Update:
+                        roleBasedSecurity.RolesAllowedToUpdate.RemoveAll(roles.Contains);
+                        break;
+                    case ActionItemEnum.Delete:
+                        roleBasedSecurity.RolesAllowedToDelete.RemoveAll(roles.Contains);
+                        break;
+                    case ActionItemEnum.Share:
+                        roleBasedSecurity.RolesAllowedToShare.RemoveAll(roles.Contains);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(action), action, null);
                 }
             });
         }
