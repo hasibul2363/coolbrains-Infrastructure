@@ -49,7 +49,7 @@ namespace SingleHostedServer
             });
 
 
-            services.AddScoped<UserContext>(p => new UserContext());
+            //services.AddScoped<UserContext>(p => new UserContext());
 
 
 

@@ -13,15 +13,13 @@ namespace SingleHostedServer.Event
     {
         private readonly IRepository _repository;
 
-        private UserContext _userContext;
-        public UserCreatedEventHandler(IRepository repository, UserContext userContext, IServiceProvider serviceProvider):base(serviceProvider)
+        public UserCreatedEventHandler(IRepository repository,  IServiceProvider serviceProvider):base(serviceProvider)
         {
-            _userContext = userContext;
             _repository = repository;
         }
         public override Task HandleAsync(UserCreated @event)
         {
-            Console.WriteLine($"here is tenant id {_userContext.TenantId}");
+            Console.WriteLine($"here is tenant id {@event.UserContext.TenantId}");
             Console.WriteLine($"I am from {@event.GetType()} event handler");
             return _repository.SaveAsync(new UserInfo
             {
